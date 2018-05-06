@@ -1,19 +1,20 @@
-package com.android.luttos.autoconsulta;
+package com.android.luttos.autoconsulta.model;
 
 public class Consulta {
-    private Integer id;
+    private Long id;
+    private Integer codigoConsulta;
     private String data;
     private String paciente;
     private String procedimento;
     private String unidadeSolicitante;
     private String local;
-    private String situação;
-    
-    public Integer getId() {
+    private String situacao;
+
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -57,11 +58,24 @@ public class Consulta {
         this.local = local;
     }
 
-    public String getSituação() {
-        return situação;
+    public String getSituacao() {
+        return situacao;
     }
 
-    public void setSituação(String situação) {
-        this.situação = situação;
+    public void setSituacao(String situacao) {
+        this.situacao = situacao;
+    }
+
+    public Integer getCodigoConsulta() {
+        return codigoConsulta;
+    }
+
+    public void setCodigoConsulta(Integer codigoConsulta) {
+        this.codigoConsulta = codigoConsulta;
+    }
+
+    @Override
+    public String toString() {
+        return getId() + " - " + getCodigoConsulta() + " - " + getPaciente();
     }
 }
