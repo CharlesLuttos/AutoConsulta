@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.luttos.autoconsulta.model.Consulta;
+
 import java.util.List;
 
 public class ConsultaAdapter extends BaseAdapter{
