@@ -7,7 +7,7 @@ import com.android.luttos.autoconsulta.model.Consulta;
 
 
 public class FormHelper {
-
+/*
     private final EditText campoCodigo;
     private final EditText campoData;
     private final EditText campoPaciente;
@@ -45,4 +45,5 @@ public class FormHelper {
         this.aluno = aluno;
 
     }
+*/
 }

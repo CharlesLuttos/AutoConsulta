@@ -78,4 +78,12 @@ public class Consulta {
     public String toString() {
         return getId() + " - " + getCodigoConsulta() + " - " + getPaciente();
     }
+
+    public Consulta() {
+
+    }
+
+    public Consulta(int codigoConsulta) {
+        this.codigoConsulta = codigoConsulta;
+    }
 }

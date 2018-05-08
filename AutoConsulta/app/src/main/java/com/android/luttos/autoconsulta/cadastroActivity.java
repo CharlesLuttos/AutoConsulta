@@ -14,7 +14,7 @@ public class cadastroActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
-        txtCodigo = findViewById(R.id.editText2);
+        txtCodigo = findViewById(R.id.txtCodigo);
     }
 
     public void cadastroCodigo(View view){

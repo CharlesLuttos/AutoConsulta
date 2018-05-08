@@ -1,12 +1,11 @@
 package com.android.luttos.autoconsulta;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.luttos.autoconsulta.model.Consulta;
@@ -34,26 +33,29 @@ public class ConsultaAdapter extends BaseAdapter{
 
     @Override
     public long getItemId(int position) {
-        return consultas.get(position).getId();
+        return position;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         Consulta consulta = consultas.get(position);
 
-        LayoutInflater inflater = LayoutInflater.from(context);
-
-        View view = convertView;
-        if (view == null) {
-            view = inflater.inflate(R.layout.item_consulta, parent, false);
+        ViewHolder holder;
+        if (convertView == null){
+            Log.d("NGVL","View Nova => position: "+position);
+            convertView = LayoutInflater.from(context).inflate(R.layout.item_consulta, null);
+            holder = new ViewHolder();
+            holder.txtCodigo = convertView.findViewById(R.id.codigo_consulta);
+            convertView.setTag(holder);
+        } else {
+            Log.d("NGVL","View existente => position: "+position);
+            holder = (ViewHolder) convertView.getTag();
         }
-
-        TextView procedimento = view.findViewById(R.id.procedimento_consulta);
-        procedimento.setText(consulta.getProcedimento());
-
-        TextView cod_consulta = view.findViewById(R.id.codigo_consulta);
-        cod_consulta.setText(consulta.getCodigoConsulta());
-        return view;
+        holder.txtCodigo.setText(String.valueOf(consulta.getCodigoConsulta()));
+        return convertView;
     }
 
+    static class ViewHolder{
+        TextView txtCodigo;
+    }
 }

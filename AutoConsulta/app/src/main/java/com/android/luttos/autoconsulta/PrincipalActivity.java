@@ -11,10 +11,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import com.android.luttos.autoconsulta.model.Consulta;
+
+import java.util.ArrayList;
 
 public class PrincipalActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeLayout;
+    ListView listView;
+    ArrayList<Consulta> listaConsultas;
+    ConsultaAdapter consultaAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,25 +39,9 @@ public class PrincipalActivity extends AppCompatActivity {
                 startActivityForResult(telaCadastroIntent, 1);
             }
         });
-        swipeLayout = findViewById(R.id.swipe_container);
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Toast.makeText(getApplicationContext(), "Funciona", Toast.LENGTH_LONG).show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override public void run() {
-                        swipeLayout.setRefreshing(false);
-                    }
-                }, 4000);
-            }
-        });
-        swipeLayout.setColorSchemeColors(
-                getResources().getColor(android.R.color.holo_blue_bright),
-                getResources().getColor(android.R.color.holo_green_light),
-                getResources().getColor(android.R.color.holo_orange_light),
-                getResources().getColor(android.R.color.holo_red_light)
-        );
 
+        definirSwipeToPush();
+        carregarLista();
     }
 
     @Override
@@ -78,5 +70,40 @@ public class PrincipalActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode, resultCode, data);
         Toast.makeText(getApplicationContext(), "Adicionado", Toast.LENGTH_SHORT).show();
+    }
+
+    public void carregarLista(){
+        listView = findViewById(R.id.ListaConsulta);
+        listView.setEmptyView(findViewById(android.R.id.empty));
+        listaConsultas = new ArrayList<>();
+        listaConsultas.add(new Consulta(234));
+        listaConsultas.add(new Consulta(235));
+        consultaAdapter = new ConsultaAdapter(this, listaConsultas);
+        listView.setAdapter(consultaAdapter);
+    }
+
+    /**
+     * Evento para a açāo de deslizar o dedo para baixo na tela do Android
+     */
+    public void definirSwipeToPush(){
+        swipeLayout = findViewById(R.id.swipe_container);
+        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Codigo funcional
+                Toast.makeText(getApplicationContext(), "Funciona", Toast.LENGTH_LONG).show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override public void run() {
+                        swipeLayout.setRefreshing(false);
+                    }
+                }, 4000);
+            }
+        });
+        swipeLayout.setColorSchemeColors(
+                getResources().getColor(android.R.color.holo_blue_bright),
+                getResources().getColor(android.R.color.holo_green_light),
+                getResources().getColor(android.R.color.holo_orange_light),
+                getResources().getColor(android.R.color.holo_red_light)
+        );
     }
 }
