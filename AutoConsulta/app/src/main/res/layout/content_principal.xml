@@ -9,6 +9,7 @@
     tools:showIn="@layout/layout_principal">
 
     <ListView
+        android:id="@+id/ListaConsulta"
         android:layout_width="368dp"
         android:layout_height="495dp"
         android:layout_marginLeft="8dp"
