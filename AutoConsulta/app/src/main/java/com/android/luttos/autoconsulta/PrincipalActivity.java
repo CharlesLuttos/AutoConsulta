@@ -39,12 +39,11 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent telaCadastroIntent = new Intent(PrincipalActivity.this, CadastroActivity.class);
-                startActivityForResult(telaCadastroIntent, 1);
+                startActivity(telaCadastroIntent);
             }
         });
 
         definirSwipeToPush();
-        carregarLista();
     }
 
     @Override
@@ -67,14 +66,6 @@ public class PrincipalActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        int codigo = data.getIntExtra("Solicitacao", 0);
-        new ConsultaDAO(this).inserir(new Consulta(codigo));
-        Toast.makeText(getApplicationContext(), "Adicionado", Toast.LENGTH_SHORT).show();
     }
 
     public void carregarLista() {
