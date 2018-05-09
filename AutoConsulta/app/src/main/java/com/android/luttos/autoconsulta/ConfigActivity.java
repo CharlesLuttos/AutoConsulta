@@ -3,7 +3,7 @@ package com.android.luttos.autoconsulta;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class configActivity extends AppCompatActivity {
+public class ConfigActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -3,4 +3,7 @@
     <string name="action_settings">Settings</string>
     <string name="adicionarCodigo">Adicionar Código</string>
     <string name="botaoCadastrar">Cadastrar</string>
+    <string name="apagar">Apagar</string>
+    <string name="buscamapa">Buscar no mapa</string>
+    <string name="alerta">Criar alerta</string>
 </resources>
