@@ -1,10 +1,12 @@
 package com.android.luttos.autoconsulta;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
+
+import com.android.luttos.autoconsulta.dao.ConsultaDAO;
+import com.android.luttos.autoconsulta.model.Consulta;
 
 public class CadastroActivity extends AppCompatActivity {
     EditText txtCodigo;
@@ -18,10 +20,7 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     public void cadastroCodigo(View view) {
-        Intent returnIntent = new Intent(this, PrincipalActivity.class);
-        int codigo = Integer.parseInt(txtCodigo.getText().toString());
-        returnIntent.putExtra("Solicitacao", codigo);
-        setResult(1, returnIntent);
+        new ConsultaDAO(this).inserir(new Consulta(Integer.parseInt(txtCodigo.getText().toString())));
         finish();
     }
 }
