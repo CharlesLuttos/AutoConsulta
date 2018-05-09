@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 
-public class cadastroActivity extends AppCompatActivity {
+public class CadastroActivity extends AppCompatActivity {
     EditText txtCodigo;
 
     @Override
@@ -17,7 +17,7 @@ public class cadastroActivity extends AppCompatActivity {
         txtCodigo = findViewById(R.id.txtCodigo);
     }
 
-    public void cadastroCodigo(View view){
+    public void cadastroCodigo(View view) {
         Intent returnIntent = new Intent(this, PrincipalActivity.class);
         int codigo = Integer.parseInt(txtCodigo.getText().toString());
         returnIntent.putExtra("Solicitacao", codigo);

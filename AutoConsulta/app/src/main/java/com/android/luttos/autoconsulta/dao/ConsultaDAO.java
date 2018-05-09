@@ -21,7 +21,7 @@ public class ConsultaDAO extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         String sql = "CREATE TABLE Consultas (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                                             "codigoConsulta INTEGER NOT NULL, " +
+                                             "codigoConsulta INTEGER NOT NULL UNIQUE, " +
                                              "paciente TEXT, " +
                                              "procedimento TEXT, " +
                                              "data TEXT, " +
@@ -57,11 +57,11 @@ public class ConsultaDAO extends SQLiteOpenHelper {
         return dados;
     }
 
-    public List<Consulta> listar() {
+    public ArrayList<Consulta> listar() {
         String sql = "SELECT * FROM Consultas;";
         SQLiteDatabase db = getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
-        List<Consulta> consultas = new ArrayList<Consulta>();
+        ArrayList<Consulta> consultas = new ArrayList<Consulta>();
         while (c.moveToNext()){
             Consulta consulta = new Consulta();
             consulta.setId(c.getLong(c.getColumnIndex("id")));
