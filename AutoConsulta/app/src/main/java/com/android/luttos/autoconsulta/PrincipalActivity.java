@@ -76,8 +76,6 @@ public class PrincipalActivity extends AppCompatActivity {
         listView = findViewById(R.id.ListaConsulta);
         listView.setEmptyView(findViewById(android.R.id.empty));
         listaConsultas = new ArrayList<>();
-        listaConsultas.add(new Consulta(234));
-        listaConsultas.add(new Consulta(235));
         consultaAdapter = new ConsultaAdapter(this, listaConsultas);
         listView.setAdapter(consultaAdapter);
     }

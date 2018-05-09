@@ -20,7 +20,14 @@ public class ConsultaDAO extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Consultas (id INTEGER PRIMARY KEY, codigoConsulta INTEGER NOT NULL, paciente TEXT NOT NULL, procedimento TEXT NOT NULL, data TEXT NOT NULL, unidadeSolicitante TEXT NOT NULL, local TEXT NOT NULL, situacao TEXT NOT NULL);";
+        String sql = "CREATE TABLE Consultas (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
+                                             "codigoConsulta INTEGER NOT NULL, " +
+                                             "paciente TEXT, " +
+                                             "procedimento TEXT, " +
+                                             "data TEXT, " +
+                                             "unidadeSolicitante TEXT, " +
+                                             "local TEXT, " +
+                                             "situacao TEXT);";
         db.execSQL(sql);
     }
 
