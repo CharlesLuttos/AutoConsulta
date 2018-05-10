@@ -15,8 +15,13 @@ Códigos de teste e seus respectivos status
 Key/Values para o objeto Json
 
 Key                 - Value
+
 paciente              "Nome do paciente"
+
 procedimento          "Procedimento do exame a ser feito"
+
 unidade_solicitante   "Unidade onde a consulta foi solicitada"
+
 local_atendimento     "Se a consulta for autorizada um local será exibido"
+
 situacao              "0 | 1 | 2"
