@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">SUS Consulta</string>
-    <string name="action_settings">Configurações</string>
-    <string name="adicionarCodigo">Adicionar Consulta</string>
+    <string name="app_name">Auto Consulta</string>
+    <string name="action_settings">Settings</string>
+    <string name="adicionarCodigo">Adicionar Código</string>
     <string name="botaoCadastrar">Cadastrar</string>
     <string name="apagar">Apagar</string>
-    <string name="buscamapa">Buscar no Mapa</string>
-    <string name="alerta">Criar Alerta</string>
+    <string name="buscamapa">Buscar no mapa</string>
+    <string name="alerta">Criar alerta</string>
 </resources>

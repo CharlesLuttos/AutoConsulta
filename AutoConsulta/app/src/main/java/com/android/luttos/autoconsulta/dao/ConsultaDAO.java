@@ -27,7 +27,7 @@ public class ConsultaDAO extends SQLiteOpenHelper {
                                              "data TEXT, " +
                                              "unidadeSolicitante TEXT, " +
                                              "local TEXT, " +
-                                             "situacao INTEGER);";
+                                             "situacao TEXT);";
         db.execSQL(sql);
     }
 
@@ -71,7 +71,7 @@ public class ConsultaDAO extends SQLiteOpenHelper {
             consulta.setData(c.getString(c.getColumnIndex("data")));
             consulta.setUnidadeSolicitante(c.getString(c.getColumnIndex("unidadeSolicitante")));
             consulta.setLocal(c.getString(c.getColumnIndex("local")));
-            consulta.setSituacao(c.getInt(c.getColumnIndex("situacao")));
+            consulta.setSituacao(c.getString(c.getColumnIndex("situacao")));
 
             consultas.add(consulta);
         }
