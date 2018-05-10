@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -103,11 +104,23 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo){
-        if (view.getId() == R.id.ListaConsulta){
-            MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.menu_opcoes, menu);
-        }
+    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        MenuItem buscarMapa = menu.add("Buscar no Mapa");
+        MenuItem criarAlerta = menu.add("Criar Alerta");
+        MenuItem apagar = menu.add("Apagar");
+        apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
+                ConsultaDAO dao = new ConsultaDAO(PrincipalActivity.this);
+                dao.apagar(consulta);
+                dao.close();
+                carregarLista();
+                Toast.makeText(PrincipalActivity.this, "Consulta Excluída", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     @Override
