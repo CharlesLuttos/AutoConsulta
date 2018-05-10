@@ -12,6 +12,7 @@ import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -104,7 +105,6 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     @Override
-<<<<<<< HEAD
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
         MenuItem buscarMapa = menu.add("Buscar no Mapa");
         MenuItem criarAlerta = menu.add("Criar Alerta");
@@ -122,13 +122,6 @@ public class PrincipalActivity extends AppCompatActivity {
                 return false;
             }
         });
-=======
-    public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo menuInfo){
-        if (view.getId() == R.id.ListaConsulta){
-            MenuInflater menuInflater = getMenuInflater();
-            menuInflater.inflate(R.menu.menu_opcoes, menu);
-        }
->>>>>>> parent of bede818... Método Apagar no contextMenu works!
     }
 
     @Override

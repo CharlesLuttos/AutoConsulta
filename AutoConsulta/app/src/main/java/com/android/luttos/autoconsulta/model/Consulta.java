@@ -8,7 +8,7 @@ public class Consulta {
     private String procedimento;
     private String unidadeSolicitante;
     private String local;
-    private String situacao;
+    private Integer situacao; // 0=Pendente;1=Autorizada;2=Expirada;
 
     public Long getId() {
         return id;
@@ -58,11 +58,11 @@ public class Consulta {
         this.local = local;
     }
 
-    public String getSituacao() {
+    public Integer getSituacao() {
         return situacao;
     }
 
-    public void setSituacao(String situacao) {
+    public void setSituacao(Integer situacao) {
         this.situacao = situacao;
     }
 
