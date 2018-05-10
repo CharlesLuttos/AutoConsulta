@@ -1,7 +1,7 @@
 # AutoConsulta
 Repositório acadêmico
 
-Api: luttos.com/autoconsulta/<codigoConsulta>
+Api: luttos.com/autoconsulta/codigoConsulta
 
 Códigos de teste e seus respectivos status
 
