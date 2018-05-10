@@ -117,7 +117,7 @@ public class PrincipalActivity extends AppCompatActivity {
                 dao.apagar(consulta);
                 dao.close();
                 carregarLista();
-                Toast.makeText(PrincipalActivity.this, "Consulta Excluída", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PrincipalActivity.this, "Consulta Excluída!", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
