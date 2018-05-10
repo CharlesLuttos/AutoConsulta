@@ -88,6 +88,7 @@ public class PrincipalActivity extends AppCompatActivity {
             public void onRefresh() {
                 // Codigo funcional
                 Toast.makeText(getApplicationContext(), "Atualizado", Toast.LENGTH_LONG).show();
+                carregarLista();
                 new Handler().postDelayed(new Runnable() {
                     @Override public void run() {
                         swipeLayout.setRefreshing(false);
