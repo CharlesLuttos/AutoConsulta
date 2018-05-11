@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">SUS Consulta</string>
+    <string name="app_name"> SUS Consulta</string>
     <string name="action_settings">Configurações</string>
     <string name="adicionarCodigo">Adicionar Consulta</string>
     <string name="botaoCadastrar">Cadastrar</string>
