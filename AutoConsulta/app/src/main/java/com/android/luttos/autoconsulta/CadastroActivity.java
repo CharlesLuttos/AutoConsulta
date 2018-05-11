@@ -1,5 +1,7 @@
 package com.android.luttos.autoconsulta;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -7,9 +9,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
 import com.android.luttos.autoconsulta.model.Consulta;
+import com.android.luttos.autoconsulta.util.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -18,9 +22,11 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+
 
 public class CadastroActivity extends AppCompatActivity {
     EditText txtCodigo;
@@ -29,11 +35,15 @@ public class CadastroActivity extends AppCompatActivity {
     int codigoConsulta;
     ConsultaDAO consultaDAO;
     JSONObject jsonObject;
+    ProgressDialog pd;
+    AlertDialog.Builder alerta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
+
+        alerta = new AlertDialog.Builder(this);
 
         consultaDAO = new ConsultaDAO(this);
 
@@ -44,11 +54,16 @@ public class CadastroActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //new ObterDadosJson().execute("http://samples.openweathermap.org/data/2.5/weather?q=London,uk&coord&appid=b6907d289e10d714a6e88b30761fae22");
-                codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                new ObterDadosJson().execute("http://172.16.1.138/autoconsulta/"+codigoConsulta);
+                if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0){
+                    codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
+                    new ObterDadosJson().execute("http://luttos.com/autoconsulta/"+codigoConsulta);
+                } else {
+                    exibirAlertDialog("Dados", "Digite o código da solicitaçao");
+                }
             }
         });
+
+        // Util.hideSoftKeyboard(this);
     }
 
     /**
@@ -58,6 +73,10 @@ public class CadastroActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            pd = new ProgressDialog(CadastroActivity.this);
+            pd.setMessage("Aguarde");
+            pd.setCancelable(false);
+            pd.show();
         }
 
         @Override
@@ -98,8 +117,12 @@ public class CadastroActivity extends AppCompatActivity {
                 return buffer.toString();
             } catch (MalformedURLException e) {
                 e.printStackTrace();
+                exibirAlertDialog("Falha na API", "API de serviços inválida");
             } catch (IOException e) {
                 e.printStackTrace();
+                exibirToast("Falha na conexão com a API de serviços", Toast.LENGTH_SHORT);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             } finally {
                 if (connection != null) {
                     connection.disconnect();
@@ -113,8 +136,12 @@ public class CadastroActivity extends AppCompatActivity {
                 }
 
                 try {
-                    formarObjetoConsulta(jsonObject);
-                    finish();
+                    if (jsonObject != null){
+                        formarObjetoConsulta(jsonObject);
+                        finish();
+                    } else {
+                        exibirToast("Consulta não cadastrada", Toast.LENGTH_LONG);
+                    }
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
@@ -144,5 +171,16 @@ public class CadastroActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void exibirToast(String mensagem, int duracao){
+        Toast.makeText(this, mensagem, duracao).show();
+    }
+
+    public void exibirAlertDialog(String titulo, String mensagem) {
+        alerta.setTitle(titulo)
+                .setMessage(mensagem)
+                .setPositiveButton(android.R.string.ok, null)
+                .show();
     }
 }

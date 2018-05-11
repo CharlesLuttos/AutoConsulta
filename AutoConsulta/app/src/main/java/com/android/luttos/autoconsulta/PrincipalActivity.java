@@ -45,6 +45,7 @@ public class PrincipalActivity extends AppCompatActivity {
         });
 
         definirSwipeToPush();
+        definirToolbarIcon();
     }
 
     @Override
@@ -128,5 +129,15 @@ public class PrincipalActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         carregarLista();
+    }
+
+    public void definirToolbarIcon() {
+        try {
+            getSupportActionBar().setDisplayShowTitleEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setIcon(R.drawable.ic_toolbar);
+        } catch (NullPointerException ex) {
+            ex.printStackTrace();
+        }
     }
 }
