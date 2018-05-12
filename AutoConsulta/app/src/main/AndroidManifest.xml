@@ -23,7 +23,7 @@
         </activity>
         <activity android:name=".CadastroActivity" />
         <activity android:name=".ConfigActivity" />
-        <activity android:name=".DetalhesActivity"></activity>
+        <activity android:name=".DetalhesActivity" />
     </application>
 
 </manifest>
