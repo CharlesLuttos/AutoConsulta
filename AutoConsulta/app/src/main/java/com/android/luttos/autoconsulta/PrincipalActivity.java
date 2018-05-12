@@ -82,7 +82,6 @@ public class PrincipalActivity extends AppCompatActivity {
 
     public void carregarLista() {
         listView = findViewById(R.id.ListaConsulta);
-        listView = findViewById(R.id.lista_consulta);
         listView.setEmptyView(findViewById(android.R.id.empty));
         listaConsultas = consultaDAO.listar();
         consultaAdapter = new ConsultaAdapter(this, listaConsultas);
