@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.SwipeRefreshLayout android:id="@+id/swipe_container" xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.SwipeRefreshLayout
+    android:id="@+id/swipe_container"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,7 +11,7 @@
     tools:showIn="@layout/layout_principal">
 
     <ListView
-        android:id="@+id/ListaConsulta"
+        android:id="@+id/lista_consulta"
         android:layout_width="368dp"
         android:layout_height="495dp"
         android:layout_marginLeft="8dp"
