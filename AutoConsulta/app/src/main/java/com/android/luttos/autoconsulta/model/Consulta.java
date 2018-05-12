@@ -8,8 +8,8 @@ public class Consulta implements Serializable{
     private String data;
     private String paciente;
     private String procedimento;
-    private String unidadeSolicitante;
-    private String local;
+    private String unidade_solicitante;
+    private String local_atendimento;
     private Integer situacao; // 0=Pendente;1=Autorizada;2=Expirada;
 
     public Long getId() {
@@ -45,19 +45,19 @@ public class Consulta implements Serializable{
     }
 
     public String getUnidadeSolicitante() {
-        return unidadeSolicitante;
+        return unidade_solicitante;
     }
 
     public void setUnidadeSolicitante(String unidadeSolicitante) {
-        this.unidadeSolicitante = unidadeSolicitante;
+        this.unidade_solicitante = unidadeSolicitante;
     }
 
     public String getLocal() {
-        return local;
+        return local_atendimento;
     }
 
     public void setLocal(String local) {
-        this.local = local;
+        this.local_atendimento = local;
     }
 
     public Integer getSituacao() {
