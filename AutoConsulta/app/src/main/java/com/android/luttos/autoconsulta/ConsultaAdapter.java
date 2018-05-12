@@ -51,6 +51,7 @@ public class ConsultaAdapter extends BaseAdapter{
             convertView = LayoutInflater.from(context).inflate(R.layout.item_consulta, null);
             holder = new ViewHolder();
             holder.txtCodigo = convertView.findViewById(R.id.codigo_consulta);
+            holder.txtProcedimento = convertView.findViewById(R.id.procedimento_consulta);
             holder.imgSituacao = convertView.findViewById(R.id.image_status);
             convertView.setTag(holder);
         } else {
@@ -62,12 +63,14 @@ public class ConsultaAdapter extends BaseAdapter{
         TypedArray situacoes = res.obtainTypedArray(R.array.situacoes);
         holder.imgSituacao.setImageDrawable(situacoes.getDrawable(consulta.getSituacao()));
         holder.txtCodigo.setText(String.valueOf(consulta.getCodigoConsulta()));
+        holder.txtProcedimento.setText((String.valueOf(consulta.getProcedimento())));
 
         return convertView;
     }
 
     static class ViewHolder{
         TextView txtCodigo;
+        TextView txtProcedimento;
         ImageView imgSituacao;
     }
 }

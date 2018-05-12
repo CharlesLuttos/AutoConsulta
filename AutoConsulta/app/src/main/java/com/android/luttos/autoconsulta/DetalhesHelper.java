@@ -47,7 +47,17 @@ public class DetalhesHelper {
         campoUnidadeAtendimento.setText(consulta.getUnidadeSolicitante());
         campoLocal.setText(consulta.getLocal());
         campoData.setText(consulta.getData());
-        campoSituacao.setText(String.valueOf(consulta.getSituacao().intValue()));
+        switch (consulta.getSituacao()){
+            case 0:
+                campoSituacao.setText("PENDENTE");
+                break;
+            case 1:
+                campoSituacao.setText("AUTORIZADA");
+                break;
+            case 2:
+                campoSituacao.setText("EXPIRADA");
+        }
+        //campoSituacao.setText(String.valueOf(consulta.getSituacao().intValue()));
         this.consulta = consulta;
     }
 }
