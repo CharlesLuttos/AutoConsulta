@@ -35,6 +35,17 @@ public class PrincipalActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        listView = findViewById(R.id.lista_consulta);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
+                Consulta consulta = (Consulta) listView.getItemAtPosition(position);
+                Intent formActivity = new Intent(PrincipalActivity.this, DetalhesActivity.class);
+                formActivity.putExtra("consulta", consulta);
+                startActivity(formActivity);
+            }
+        });
+
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
