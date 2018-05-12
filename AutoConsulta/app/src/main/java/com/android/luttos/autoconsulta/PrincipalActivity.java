@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,6 +81,7 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     public void carregarLista() {
+        listView = findViewById(R.id.ListaConsulta);
         listView = findViewById(R.id.lista_consulta);
         listView.setEmptyView(findViewById(android.R.id.empty));
         listaConsultas = consultaDAO.listar();

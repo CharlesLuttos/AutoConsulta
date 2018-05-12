@@ -46,7 +46,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 //new ObterDadosJson().execute("http://samples.openweathermap.org/data/2.5/weather?q=London,uk&coord&appid=b6907d289e10d714a6e88b30761fae22");
                 codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                new ObterDadosJson().execute("http://luttos.com/autoconsulta/"+codigoConsulta);
+                new ObterDadosJson().execute("http://172.16.1.138/autoconsulta/"+codigoConsulta);
             }
         });
     }

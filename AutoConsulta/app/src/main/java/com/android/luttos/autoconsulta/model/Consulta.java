@@ -1,5 +1,6 @@
 package com.android.luttos.autoconsulta.model;
 
+public class Consulta {
 import java.io.Serializable;
 
 public class Consulta implements Serializable{
