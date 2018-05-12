@@ -8,45 +8,36 @@
         android:orientation="vertical"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         tools:context=".DetalhesActivity">
 
-        <EditText android:id="@+id/codigo"
-            android:hint="Codigo"
+        <TextView android:id="@+id/form_codigo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <TextView android:id="@+id/form_paciente"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText android:id="@+id/data"
-            android:hint="Data"
+        <TextView android:id="@+id/form_procedimento"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-
-        <EditText android:id="@+id/paciente"
-            android:hint="Paciente"
+        <TextView android:id="@+id/form_unidade_solicitante"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText android:id="@+id/procedimento"
-            android:hint="Procedimento"
+        <TextView android:id="@+id/form_local"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText android:id="@+id/unidade_solicitante"
-            android:hint="Unidade Solicitante"
+        <TextView android:id="@+id/form_data"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText android:id="@+id/local"
-            android:hint="Local"
+        <TextView android:id="@+id/form_situacao"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <EditText android:id="@+id/situacao"
-            android:hint="Situação"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
 
     </LinearLayout>
 

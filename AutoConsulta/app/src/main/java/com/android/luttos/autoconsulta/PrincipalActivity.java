@@ -8,7 +8,6 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,6 +33,17 @@ public class PrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.layout_principal);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        listView = findViewById(R.id.lista_consulta);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
+                Consulta consulta = (Consulta) listView.getItemAtPosition(position);
+                Intent formActivity = new Intent(PrincipalActivity.this, DetalhesActivity.class);
+                formActivity.putExtra("consulta", consulta);
+                startActivity(formActivity);
+            }
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -70,7 +80,7 @@ public class PrincipalActivity extends AppCompatActivity {
     }
 
     public void carregarLista() {
-        listView = findViewById(R.id.ListaConsulta);
+        listView = findViewById(R.id.lista_consulta);
         listView.setEmptyView(findViewById(android.R.id.empty));
         listaConsultas = consultaDAO.listar();
         consultaAdapter = new ConsultaAdapter(this, listaConsultas);
