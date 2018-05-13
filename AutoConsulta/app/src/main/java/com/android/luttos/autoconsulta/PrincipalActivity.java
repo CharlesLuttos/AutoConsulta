@@ -7,7 +7,6 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.ContextMenu;
 import android.view.View;
 import android.view.Menu;
@@ -18,15 +17,8 @@ import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
 import com.android.luttos.autoconsulta.model.Consulta;
-import com.androidnetworking.AndroidNetworking;
-import com.androidnetworking.common.Priority;
-import com.androidnetworking.error.ANError;
-import com.androidnetworking.interfaces.ParsedRequestListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import okhttp3.OkHttpClient;
 
 public class PrincipalActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeLayout;
@@ -107,14 +99,9 @@ public class PrincipalActivity extends AppCompatActivity {
             public void onRefresh() {
                 // Codigo funcional
                 Toast.makeText(getApplicationContext(), "Atualizado", Toast.LENGTH_LONG).show();
-
-                for (Consulta c : listaConsultas) {
-                    getConsulta(c.getCodigoConsulta());
-                }
-
+                carregarLista();
                 new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+                    @Override public void run() {
                         swipeLayout.setRefreshing(false);
                     }
                 }, 4000);
@@ -136,7 +123,7 @@ public class PrincipalActivity extends AppCompatActivity {
         apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                 Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
                 ConsultaDAO dao = new ConsultaDAO(PrincipalActivity.this);
                 dao.apagar(consulta);
@@ -162,39 +149,5 @@ public class PrincipalActivity extends AppCompatActivity {
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
-    }
-
-    public void getConsulta(Integer codigo){
-
-
-        AndroidNetworking.get("http://luttos.com/autoconsulta/{codConsulta}")
-                .addPathParameter("codConsulta", codigo.toString())
-                .setTag(this)
-                .setPriority(Priority.LOW)
-                .build()
-                .getAsObject(Consulta.class, new ParsedRequestListener<Consulta>() {
-                    @Override
-                    public void onResponse(Consulta user) {
-                        listView = findViewById(R.id.lista_consulta);
-                        listView.setEmptyView(findViewById(android.R.id.empty));
-                        for(Consulta c : listaConsultas){
-                            if(c.getSituacao() == user.getSituacao()){
-                                c.setPaciente(user.getPaciente());
-                                c.setUnidadeSolicitante(user.getUnidadeSolicitante());
-                                c.setLocal(user.getLocal());
-                                c.setProcedimento(user.getProcedimento());
-                                consultaDAO.atualizar(c);
-                            }
-                        }
-                        consultaAdapter = new ConsultaAdapter(getApplicationContext(), listaConsultas);
-                        listView.setAdapter(consultaAdapter);
-                        registerForContextMenu(listView);
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.d("Error: ", anError.getMessage());
-                    }
-                });
     }
 }
