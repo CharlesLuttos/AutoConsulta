@@ -23,10 +23,7 @@ import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
 import com.androidnetworking.interfaces.ParsedRequestListener;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-
-import okhttp3.OkHttpClient;
 
 public class PrincipalActivity extends AppCompatActivity {
     SwipeRefreshLayout swipeLayout;
@@ -167,7 +164,7 @@ public class PrincipalActivity extends AppCompatActivity {
     public void getConsulta(Integer codigo){
 
 
-        AndroidNetworking.get("http://luttos.com/autoconsulta/{codConsulta}")
+        AndroidNetworking.get("http://172.16.1.167/autoconsulta/{codConsulta}")
                 .addPathParameter("codConsulta", codigo.toString())
                 .setTag(this)
                 .setPriority(Priority.LOW)
