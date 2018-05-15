@@ -33,7 +33,7 @@ public class DetalhesActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_form, menu);
+        inflater.inflate(R.menu.menu_detalhes, menu);
 
         return super.onCreateOptionsMenu(menu);
     }

@@ -1,9 +1,23 @@
 <resources>
     <string name="app_name"> SUS Consulta</string>
+    <string name="aguarde">Aguarde</string>
     <string name="action_settings">Configurações</string>
     <string name="adicionarCodigo">Adicionar Consulta</string>
+    <string name="digiteCodigo">Digite o código da consulta</string>
     <string name="botaoCadastrar">Cadastrar</string>
     <string name="apagar">Apagar</string>
     <string name="buscamapa">Buscar no Mapa</string>
     <string name="alerta">Criar Alerta</string>
+    <string name="codigo">Código:</string>
+    <string name="paciente">Paciente:</string>
+    <string name="procedimento">Procedimento:</string>
+    <string name="unidade_solicitante">Und. Solicitante:</string>
+    <string name="local">Local:</string>
+    <string name="data">Data:</string>
+    <string name="situacao">Situação:</string>
+    <string name="toast_excluir_consulta">Consulta Excluída!</string>
+    <string name="toast_atualizado">Atualizado!</string>
+    <string name="menu_suspenso_apagar">Apagar</string>
+    <string name="menu_suspenso_maps">Buscar no Mapa</string>
+    <string name="menu_suspenso_alerta">Criar Alerta</string>
 </resources>
