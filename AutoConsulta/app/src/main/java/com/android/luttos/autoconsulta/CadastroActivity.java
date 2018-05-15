@@ -55,7 +55,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0){
                     codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                    new ObterDadosJson().execute("http://luttos.com/autoconsulta/"+codigoConsulta);
+                    new ObterDadosJson().execute("http://192.168.0.11/autoconsulta/"+codigoConsulta);
                 } else {
                     exibirAlertDialog("Dados", "Digite o código da solicitaçao");
                 }
