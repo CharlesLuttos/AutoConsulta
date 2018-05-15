@@ -61,8 +61,6 @@ public class CadastroActivity extends AppCompatActivity {
                 }
             }
         });
-
-        // Util.hideSoftKeyboard(this);
     }
 
     /**
