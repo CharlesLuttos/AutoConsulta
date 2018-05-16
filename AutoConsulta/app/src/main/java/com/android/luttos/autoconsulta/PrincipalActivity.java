@@ -103,12 +103,11 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onRefresh() {
                 // Codigo funcional
-                Toast.makeText(getApplicationContext(), "Atualizado", Toast.LENGTH_LONG).show();
-
+                Toast.makeText(getApplicationContext(), R.string.toast_atualizado, Toast.LENGTH_LONG).show();
                 for (Consulta c : listaConsultas) {
                     getConsulta(c.getCodigoConsulta());
                 }
-
+                carregarLista();
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -127,19 +126,19 @@ public class PrincipalActivity extends AppCompatActivity {
 
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem buscarMapa = menu.add("Buscar no Mapa");
-        MenuItem criarAlerta = menu.add("Criar Alerta");
-        MenuItem apagar = menu.add("Apagar");
+        MenuItem buscarMapa = menu.add(R.string.menu_suspenso_maps);
+        MenuItem criarAlerta = menu.add(R.string.menu_suspenso_alerta);
+        MenuItem apagar = menu.add(R.string.menu_suspenso_apagar);
         apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                 Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
                 ConsultaDAO dao = new ConsultaDAO(PrincipalActivity.this);
                 dao.apagar(consulta);
                 dao.close();
                 carregarLista();
-                Toast.makeText(PrincipalActivity.this, "Consulta Excluída!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PrincipalActivity.this, R.string.toast_excluir_consulta, Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
