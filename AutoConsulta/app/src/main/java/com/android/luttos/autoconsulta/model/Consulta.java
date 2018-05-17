@@ -11,6 +11,7 @@ public class Consulta implements Serializable{
     private String unidadeSolicitante;
     private String local;
     private Integer situacao; // 0=Pendente;1=Autorizada;2=Expirada;
+    private Usuario usuario;
 
     public Long getId() {
         return id;
@@ -87,5 +88,13 @@ public class Consulta implements Serializable{
 
     public Consulta(int codigoConsulta) {
         this.codigoConsulta = codigoConsulta;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
     }
 }
