@@ -2,6 +2,7 @@ package com.android.luttos.autoconsulta;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +13,9 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
+import com.android.luttos.autoconsulta.dao.ConsultaDAO2;
 import com.android.luttos.autoconsulta.model.Consulta;
+import com.android.luttos.autoconsulta.model.Usuario;
 import com.android.luttos.autoconsulta.util.Util;
 
 import org.json.JSONException;
@@ -32,19 +35,22 @@ public class CadastroActivity extends AppCompatActivity {
     Button button;
     Consulta consulta;
     int codigoConsulta;
-    ConsultaDAO consultaDAO;
+    ConsultaDAO2 consultaDAO;
     JSONObject jsonObject;
     ProgressDialog pd;
     AlertDialog.Builder alerta;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro);
 
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+
         alerta = new AlertDialog.Builder(this);
 
-        consultaDAO = new ConsultaDAO(this);
+        consultaDAO = new ConsultaDAO2(getApplication());
 
         txtCodigo = findViewById(R.id.txtCodigo);
 
@@ -55,8 +61,7 @@ public class CadastroActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0){
                     codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                    new ObterDadosJson().execute("http://172.16.1.167/autoconsulta/"+codigoConsulta);
-
+                    new ObterDadosJson().execute("http://192.168.0.2/autoconsulta/"+codigoConsulta);
                 } else {
                     exibirAlertDialog("Dados", "Digite o código da solicitaçao");
                 }
@@ -160,6 +165,7 @@ public class CadastroActivity extends AppCompatActivity {
         consulta.setUnidadeSolicitante(jsonObject.get("unidade_solicitante").toString());
         consulta.setLocal(jsonObject.get("local_atendimento").toString());
         consulta.setSituacao(Integer.parseInt(jsonObject.get("situacao").toString()));
+        consulta.setUsuario(usuario);
         inserirConsulta(consulta);
     }
 

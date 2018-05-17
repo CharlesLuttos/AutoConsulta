@@ -20,4 +20,8 @@
     <string name="menu_suspenso_apagar">Apagar</string>
     <string name="menu_suspenso_maps">Buscar no Mapa</string>
     <string name="menu_suspenso_alerta">Criar Alerta</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="adicionarUsuario">Adicionar usuario</string>
+    <string name="nomeUsuario">Nome</string>
+    <string name="usuario">Usuario</string>
 </resources>

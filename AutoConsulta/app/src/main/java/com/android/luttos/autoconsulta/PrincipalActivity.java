@@ -17,7 +17,10 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
+import com.android.luttos.autoconsulta.dao.ConsultaDAO2;
+import com.android.luttos.autoconsulta.dao.DAO;
 import com.android.luttos.autoconsulta.model.Consulta;
+import com.android.luttos.autoconsulta.model.Usuario;
 import com.androidnetworking.AndroidNetworking;
 import com.androidnetworking.common.Priority;
 import com.androidnetworking.error.ANError;
@@ -30,7 +33,8 @@ public class PrincipalActivity extends AppCompatActivity {
     ListView listView;
     ArrayList<Consulta> listaConsultas;
     ConsultaAdapter consultaAdapter;
-    ConsultaDAO consultaDAO = new ConsultaDAO(PrincipalActivity.this);
+    ConsultaDAO2 consultaDAO;
+    Usuario usuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,10 @@ public class PrincipalActivity extends AppCompatActivity {
         setContentView(R.layout.layout_principal);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        consultaDAO = new ConsultaDAO2(getBaseContext());
+
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
 
         listView = findViewById(R.id.lista_consulta);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -55,6 +63,7 @@ public class PrincipalActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent telaCadastroIntent = new Intent(PrincipalActivity.this, CadastroActivity.class);
+                telaCadastroIntent.putExtra("usuario", usuario);
                 startActivity(telaCadastroIntent);
             }
         });
@@ -88,7 +97,7 @@ public class PrincipalActivity extends AppCompatActivity {
     public void carregarLista() {
         listView = findViewById(R.id.lista_consulta);
         listView.setEmptyView(findViewById(android.R.id.empty));
-        listaConsultas = consultaDAO.listar();
+        listaConsultas = consultaDAO.listar(usuario);
         consultaAdapter = new ConsultaAdapter(this, listaConsultas);
         listView.setAdapter(consultaAdapter);
         registerForContextMenu(listView);
@@ -163,7 +172,7 @@ public class PrincipalActivity extends AppCompatActivity {
     public void getConsulta(Integer codigo){
 
 
-        AndroidNetworking.get("http://172.16.1.167/autoconsulta/{codConsulta}")
+        AndroidNetworking.get("http://192.168.0.2/autoconsulta/{codConsulta}")
                 .addPathParameter("codConsulta", codigo.toString())
                 .setTag(this)
                 .setPriority(Priority.LOW)
