@@ -4,44 +4,35 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.support.annotation.NonNull;
 
 import com.android.luttos.autoconsulta.model.Consulta;
+import com.android.luttos.autoconsulta.model.Usuario;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
-public class ConsultaDAO extends SQLiteOpenHelper {
+public class ConsultaDAO implements Serializable{
+
+    private SQLiteDatabase database;
+    private DAO dao;
+    private Context context;
 
     public ConsultaDAO(Context context) {
-        super(context, "bd_autoconsulta", null, 1);
+        this.context = context;
+        dao = DAO.getHelper(context);
+        open();
     }
 
-    @Override
-    public void onCreate(SQLiteDatabase db) {
-        String sql = "CREATE TABLE Consultas (id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "codigoConsulta INTEGER NOT NULL UNIQUE, " +
-                "paciente TEXT, " +
-                "procedimento TEXT, " +
-                "data TEXT, " +
-                "unidadeSolicitante TEXT, " +
-                "local TEXT, " +
-                "situacao INTEGER);";
-        db.execSQL(sql);
-    }
-
-    @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        String sql = "DROP TABLE IF EXISTS Consultas;";
-        db.execSQL(sql);
-        onCreate(db);
+    private void open() {
+        if (dao == null)
+            dao = DAO.getHelper(context);
+        database = dao.getWritableDatabase();
     }
 
     public void inserir(Consulta consulta) {
-        SQLiteDatabase db = getWritableDatabase();
         ContentValues dados = pegarDadosConsulta(consulta);
-        db.insert("Consultas", null, dados);
+        database.insert("Consultas", null, dados);
     }
 
     @NonNull
@@ -54,14 +45,15 @@ public class ConsultaDAO extends SQLiteOpenHelper {
         dados.put("unidadeSolicitante", consulta.getUnidadeSolicitante());
         dados.put("local", consulta.getLocal());
         dados.put("situacao", consulta.getSituacao());
+        dados.put("idUsuario", consulta.getUsuario().getId());
         return dados;
     }
 
-    public ArrayList<Consulta> listar() {
-        String sql = "SELECT * FROM Consultas;";
-        SQLiteDatabase db = getReadableDatabase();
+    public ArrayList<Consulta> listar(Usuario usuario) {
+        String sql = "SELECT * FROM Consultas WHERE idUsuario = "+usuario.getId()+";";
+        SQLiteDatabase db = dao.getReadableDatabase();
         Cursor c = db.rawQuery(sql, null);
-        ArrayList<Consulta> consultas = new ArrayList<Consulta>();
+        ArrayList<Consulta> consultas = new ArrayList<>();
         while (c.moveToNext()){
             Consulta consulta = new Consulta();
             consulta.setId(c.getLong(c.getColumnIndex("id")));
@@ -80,16 +72,14 @@ public class ConsultaDAO extends SQLiteOpenHelper {
     }
 
     public void apagar(Consulta consulta) {
-        SQLiteDatabase db = getWritableDatabase();
         String [] params = {consulta.getId().toString()};
-        db.delete("Consultas", "id = ?;", params);
+        database.delete("Consultas", "id = ?;", params);
     }
 
     public void atualizar(Consulta consulta) {
-        SQLiteDatabase db = getWritableDatabase();
         ContentValues dados = pegarDadosConsulta(consulta);
 
         String[] params = {consulta.getId().toString()};
-        db.update("Consultas", dados, "id = ?", params);
+        database.update("Consultas", dados, "id = ?", params);
     }
 }

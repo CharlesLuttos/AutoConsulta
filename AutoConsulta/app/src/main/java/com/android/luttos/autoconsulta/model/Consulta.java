@@ -82,10 +82,9 @@ public class Consulta implements Serializable{
         return getId() + " - " + getCodigoConsulta() + " - " + getPaciente();
     }
 
-    public Consulta() {
+    public Consulta() { }
 
-    }
-
+    @SuppressWarnings("unused")
     public Consulta(int codigoConsulta) {
         this.codigoConsulta = codigoConsulta;
     }

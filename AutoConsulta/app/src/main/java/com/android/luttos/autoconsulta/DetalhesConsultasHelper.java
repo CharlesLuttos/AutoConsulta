@@ -5,7 +5,7 @@ import android.widget.TextView;
 import com.android.luttos.autoconsulta.model.Consulta;
 
 
-public class DetalhesHelper {
+public class DetalhesConsultasHelper {
 
     private final TextView campoCodigo;
     private final TextView campoPaciente;
@@ -17,7 +17,7 @@ public class DetalhesHelper {
 
     private Consulta consulta;
 
-    public DetalhesHelper(DetalhesActivity activity){
+    DetalhesConsultasHelper(DetalhesConsultasActivity activity){
 
         campoCodigo = activity.findViewById(R.id.form_codigo);
         campoPaciente = activity.findViewById(R.id.form_paciente);
@@ -49,13 +49,13 @@ public class DetalhesHelper {
         campoData.setText(consulta.getData());
         switch (consulta.getSituacao()){
             case 0:
-                campoSituacao.setText("PENDENTE");
+                campoSituacao.setText(R.string.consulta_pendente);
                 break;
             case 1:
-                campoSituacao.setText("AUTORIZADA");
+                campoSituacao.setText(R.string.consulta_autorizada);
                 break;
             case 2:
-                campoSituacao.setText("EXPIRADA");
+                campoSituacao.setText(R.string.consulta_expirada);
         }
         //campoSituacao.setText(String.valueOf(consulta.getSituacao().intValue()));
         this.consulta = consulta;

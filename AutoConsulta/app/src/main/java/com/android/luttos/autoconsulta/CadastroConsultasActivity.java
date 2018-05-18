@@ -1,8 +1,8 @@
 package com.android.luttos.autoconsulta;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,10 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
-import com.android.luttos.autoconsulta.dao.ConsultaDAO2;
 import com.android.luttos.autoconsulta.model.Consulta;
 import com.android.luttos.autoconsulta.model.Usuario;
-import com.android.luttos.autoconsulta.util.Util;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,12 +28,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 
-public class CadastroActivity extends AppCompatActivity {
+public class CadastroConsultasActivity extends AppCompatActivity {
     EditText txtCodigo;
     Button button;
     Consulta consulta;
     int codigoConsulta;
-    ConsultaDAO2 consultaDAO;
+    ConsultaDAO consultaDAO;
     JSONObject jsonObject;
     ProgressDialog pd;
     AlertDialog.Builder alerta;
@@ -44,17 +42,11 @@ public class CadastroActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro);
+        setContentView(R.layout.layout_cadastro_consulta);
 
-        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
-
-        alerta = new AlertDialog.Builder(this);
-
-        consultaDAO = new ConsultaDAO2(getApplication());
-
-        txtCodigo = findViewById(R.id.txtCodigo);
-
-        button = findViewById(R.id.btnCadastroCodigo);
+        resgatarObjetos();
+        inicializarObjetos();
+        inicializarComponentes();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,13 +62,37 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     /**
+     * Resgata objetos de uma intent
+     */
+    private void resgatarObjetos() {
+        usuario = (Usuario) getIntent().getSerializableExtra("usuario");
+    }
+
+    /**
+     * Instancia demais objetos
+     */
+    private void inicializarObjetos() {
+        alerta = new AlertDialog.Builder(this);
+        consultaDAO = new ConsultaDAO(getBaseContext());
+    }
+
+    /**
+     * Instancia os componentes
+     */
+    private void inicializarComponentes() {
+        txtCodigo = findViewById(R.id.txtCodigo);
+        button = findViewById(R.id.btnCadastroCodigo);
+    }
+
+    /**
      * Classe para obter os dados da API em Json
      */
+    @SuppressLint("StaticFieldLeak")
     private class ObterDadosJson extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pd = new ProgressDialog(CadastroActivity.this);
+            pd = new ProgressDialog(CadastroConsultasActivity.this);
             pd.setMessage("Aguarde");
             pd.setCancelable(false);
             pd.show();

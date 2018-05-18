@@ -11,64 +11,54 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.android.luttos.autoconsulta.dao.ConsultaDAO2;
+import com.android.luttos.autoconsulta.adapters.UsuarioAdapter;
 import com.android.luttos.autoconsulta.dao.DAO;
-import com.android.luttos.autoconsulta.dao.UsuarioDAO2;
+import com.android.luttos.autoconsulta.dao.UsuarioDAO;
 import com.android.luttos.autoconsulta.model.Usuario;
 
 import java.util.ArrayList;
 
+/**********************
+ * Activity principal *
+ *********************/
 public class UsuarioActivity extends AppCompatActivity {
     ArrayList<Usuario> listaUsuarios;
     UsuarioAdapter usuarioAdapter;
     ListView listViewUsuarios;
     Usuario usuario;
-    UsuarioDAO2 usuarioDAO;
+    UsuarioDAO usuarioDAO;
+    FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_usuario);
+        setContentView(R.layout.layout_usuario);
 
-        listViewUsuarios = findViewById(R.id.lista_usuario);
-        DAO.getHelper(getApplicationContext());
-        usuarioDAO  = new UsuarioDAO2(getBaseContext());
+        inicializaBanco();
+        inicializaComponentes();
 
         listViewUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
                 Usuario usuario = (Usuario) listViewUsuarios.getItemAtPosition(position);
-                Intent formActivity = new Intent(UsuarioActivity.this, PrincipalActivity.class);
+                Intent formActivity = new Intent(UsuarioActivity.this, ConsultasActivity.class);
                 formActivity.putExtra("usuario", usuario);
-
                 startActivity(formActivity);
             }
         });
 
-        FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent telaCadastroUsuario = new Intent(UsuarioActivity.this, CadastroUsuario.class);
+                Intent telaCadastroUsuario = new Intent(UsuarioActivity.this, CadastroUsuarioActivity.class);
                 startActivity(telaCadastroUsuario);
             }
         });
     }
 
-    /**
-     * Define adapter e carrega lista com dados do banco
-     */
-    public void carregarLista() {
-        listViewUsuarios.setEmptyView(findViewById(android.R.id.empty));
-        listaUsuarios = usuarioDAO.listar();
-        usuarioAdapter = new UsuarioAdapter(this, listaUsuarios);
-        listViewUsuarios.setAdapter(usuarioAdapter);
-        registerForContextMenu(listViewUsuarios);
-    }
-
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem apagar = menu.add("Apagar");
+        MenuItem apagar = menu.add(R.string.apagar);
         apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
@@ -76,7 +66,7 @@ public class UsuarioActivity extends AppCompatActivity {
                 usuario = (Usuario) listViewUsuarios.getItemAtPosition(info.position);
                 usuarioDAO.apagar(usuario);
                 carregarLista();
-                exibirToast("Usuário excluído!");
+                exibirToast(getString(R.string.usuario_excluido));
                 return false;
             }
         });
@@ -89,10 +79,38 @@ public class UsuarioActivity extends AppCompatActivity {
     }
 
     /**
+     * Inicializa banco criando conexao e tabelas
+     */
+    private void inicializaBanco(){
+        DAO.getHelper(getBaseContext());
+        usuarioDAO  = new UsuarioDAO(getBaseContext());
+    }
+
+    /**
+     * Instancia os componentes
+     */
+    private void inicializaComponentes() {
+        listViewUsuarios = findViewById(R.id.lista_usuario);
+        fab = findViewById(R.id.fab);
+    }
+
+    /**
+     * Define adapter e carrega lista com dados do banco
+     */
+    private void carregarLista() {
+        listViewUsuarios.setEmptyView(findViewById(android.R.id.empty));
+        listaUsuarios = usuarioDAO.listar();
+        usuarioAdapter = new UsuarioAdapter(this, listaUsuarios);
+        listViewUsuarios.setAdapter(usuarioAdapter);
+        // Registra para o menu de contexto (exibido ao manter o toque sobre um item da lista)
+        registerForContextMenu(listViewUsuarios);
+    }
+
+    /**
      * Exibe toast
      * @param mensagem mensagem a ser exibida
      */
-    public void exibirToast(String mensagem) {
+    private void exibirToast(String mensagem) {
         Toast.makeText(UsuarioActivity.this, mensagem, Toast.LENGTH_SHORT).show();
     }
 }

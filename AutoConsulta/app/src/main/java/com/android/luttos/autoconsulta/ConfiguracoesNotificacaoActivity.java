@@ -3,11 +3,11 @@ package com.android.luttos.autoconsulta;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
-public class ConfigActivity extends AppCompatActivity {
+public class ConfiguracoesNotificacaoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_config);
+        setContentView(R.layout.layout_configuracoes_notificacao);
     }
 }

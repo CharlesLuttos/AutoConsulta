@@ -1,5 +1,6 @@
 package com.android.luttos.autoconsulta.dao;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 public class DAO extends SQLiteOpenHelper{
 
     private Context context;
+    @SuppressLint("StaticFieldLeak")
     private static DAO dao;
 
     private DAO(Context context) {
@@ -45,27 +47,7 @@ public class DAO extends SQLiteOpenHelper{
 
         db.execSQL(sqlCriaConsultas);
     }
-    public ArrayList<Consulta> listar() {
-        String sql = "SELECT * FROM Consultas;";
-        SQLiteDatabase db = dao.getReadableDatabase();
-        Cursor c = db.rawQuery(sql, null);
-        ArrayList<Consulta> consultas = new ArrayList<Consulta>();
-        while (c.moveToNext()){
-            Consulta consulta = new Consulta();
-            consulta.setId(c.getLong(c.getColumnIndex("id")));
-            consulta.setCodigoConsulta(c.getInt(c.getColumnIndex("codigoConsulta")));
-            consulta.setPaciente(c.getString(c.getColumnIndex("paciente")));
-            consulta.setProcedimento(c.getString(c.getColumnIndex("procedimento")));
-            consulta.setData(c.getString(c.getColumnIndex("data")));
-            consulta.setUnidadeSolicitante(c.getString(c.getColumnIndex("unidadeSolicitante")));
-            consulta.setLocal(c.getString(c.getColumnIndex("local")));
-            consulta.setSituacao(c.getInt(c.getColumnIndex("situacao")));
 
-            consultas.add(consulta);
-        }
-        c.close();
-        return consultas;
-    }
     @Override
     public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);

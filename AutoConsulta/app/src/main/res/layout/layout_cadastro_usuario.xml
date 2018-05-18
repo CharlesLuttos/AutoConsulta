@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroUsuario">
+    tools:context=".CadastroUsuarioActivity">
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -25,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textPersonName"
-            android:hint="@string/nomeUsuario" />
+            android:hint="@string/nome_usuario" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -49,7 +50,7 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:contentDescription="@string/adicionarUsuario"
+        android:contentDescription="@string/adicionar_usuario"
         android:layout_width="118dp"
         android:layout_height="121dp"
         android:layout_marginEnd="8dp"
@@ -71,7 +72,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
-        android:text="@string/adicionarUsuario"
+        android:text="@string/adicionar_usuario"
         android:textSize="12pt"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

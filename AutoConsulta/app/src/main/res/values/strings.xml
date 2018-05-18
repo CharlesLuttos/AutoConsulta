@@ -2,9 +2,9 @@
     <string name="app_name"> SUS Consulta</string>
     <string name="aguarde">Aguarde</string>
     <string name="action_settings">Configurações</string>
-    <string name="adicionarCodigo">Adicionar Consulta</string>
-    <string name="digiteCodigo">Digite o código da consulta</string>
-    <string name="botaoCadastrar">Cadastrar</string>
+    <string name="adicionar_codigo">Adicionar Consulta</string>
+    <string name="digite_codigo">Digite o código da consulta</string>
+    <string name="botao_cadastrar">Cadastrar</string>
     <string name="apagar">Apagar</string>
     <string name="buscamapa">Buscar no Mapa</string>
     <string name="alerta">Criar Alerta</string>
@@ -21,7 +21,13 @@
     <string name="menu_suspenso_maps">Buscar no Mapa</string>
     <string name="menu_suspenso_alerta">Criar Alerta</string>
     <string name="adicionar">Adicionar</string>
-    <string name="adicionarUsuario">Adicionar usuario</string>
-    <string name="nomeUsuario">Nome</string>
+    <string name="adicionar_usuario">Adicionar usuario</string>
+    <string name="nome_usuario">Nome</string>
     <string name="usuario">Usuario</string>
+    <string name="usuario_excluido">Usuario excluído!</string>
+    <string name="consulta_pendente">PENDENTE</string>
+    <string name="consulta_autorizada">AUTORIZADA</string>
+    <string name="consulta_expirada">EXPIRADA</string>
+    <string name="status">Status</string>
+    <string name="salvar_consulta">Salvar consulta</string>
 </resources>

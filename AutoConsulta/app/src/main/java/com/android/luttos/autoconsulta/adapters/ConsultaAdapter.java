@@ -1,4 +1,4 @@
-package com.android.luttos.autoconsulta;
+package com.android.luttos.autoconsulta.adapters;
 
 import android.content.Context;
 
@@ -13,6 +13,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.luttos.autoconsulta.R;
 import com.android.luttos.autoconsulta.model.Consulta;
 
 import java.util.List;
@@ -64,6 +65,7 @@ public class ConsultaAdapter extends BaseAdapter{
         holder.imgSituacao.setImageDrawable(situacoes.getDrawable(consulta.getSituacao()));
         holder.txtCodigo.setText(String.valueOf(consulta.getCodigoConsulta()));
         holder.txtProcedimento.setText((String.valueOf(consulta.getProcedimento())));
+        situacoes.recycle();
 
         return convertView;
     }
