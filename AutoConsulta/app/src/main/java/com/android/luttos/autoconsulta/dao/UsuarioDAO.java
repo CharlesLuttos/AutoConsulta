@@ -11,19 +11,19 @@ import com.android.luttos.autoconsulta.model.Usuario;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-public class UsuarioDAO2 implements Serializable{
+public class UsuarioDAO implements Serializable{
 
-    SQLiteDatabase database;
-    DAO dao;
-    Context context;
+    private SQLiteDatabase database;
+    private DAO dao;
+    private Context context;
 
-    public UsuarioDAO2(Context context) {
+    public UsuarioDAO(Context context) {
         this.context = context;
         dao = DAO.getHelper(context);
         open();
     }
 
-    public void open() throws SQLException{
+    private void open() throws SQLException{
         if (dao == null)
             dao = DAO.getHelper(context);
         database = dao.getWritableDatabase();
@@ -66,6 +66,7 @@ public class UsuarioDAO2 implements Serializable{
         database.delete("Consultas", "idUsuario = ?;", params);
     }
 
+    @SuppressWarnings("unused")
     public void atualizar(Usuario usuario) {
         ContentValues dados = pegarDadosUsuario(usuario);
         String[] params = { String.valueOf(usuario.getId()) };

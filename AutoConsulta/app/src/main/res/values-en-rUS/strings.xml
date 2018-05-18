@@ -3,9 +3,9 @@
     <string name="app_name">SUS Consulta</string>
     <string name="aguarde">Wait</string>
     <string name="action_settings">Settings</string>
-    <string name="adicionarCodigo">Add Appointment</string>
-    <string name="digiteCodigo">Type appointment code</string>
-    <string name="botaoCadastrar">Submit</string>
+    <string name="adicionar_codigo">Add Appointment</string>
+    <string name="digite_codigo">Type appointment code</string>
+    <string name="botao_cadastrar">Submit</string>
     <string name="apagar">Delete</string>
     <string name="buscamapa">Search on Maps</string>
     <string name="alerta">Set Alert</string>
@@ -21,4 +21,14 @@
     <string name="menu_suspenso_apagar">Delete</string>
     <string name="menu_suspenso_maps">Search on Maps</string>
     <string name="menu_suspenso_alerta">Set Alert</string>
+    <string name="adicionar">Add</string>
+    <string name="usuario">User</string>
+    <string name="nome_usuario">Name</string>
+    <string name="adicionar_usuario">Add user</string>
+    <string name="usuario_excluido">User Removed!</string>
+    <string name="consulta_pendente">PENDING</string>
+    <string name="consulta_autorizada">AUTHORIZED</string>
+    <string name="consulta_expirada">EXPIRED</string>
+    <string name="status">Status</string>
+    <string name="salvar_consulta">Save appointment</string>
 </resources>

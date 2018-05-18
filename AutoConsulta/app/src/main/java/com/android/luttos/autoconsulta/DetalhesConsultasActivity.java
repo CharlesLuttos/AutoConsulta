@@ -1,6 +1,5 @@
 package com.android.luttos.autoconsulta;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,30 +10,23 @@ import android.widget.Toast;
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
 import com.android.luttos.autoconsulta.model.Consulta;
 
-public class DetalhesActivity extends AppCompatActivity {
+public class DetalhesConsultasActivity extends AppCompatActivity {
 
-    private DetalhesHelper helper;
+    private DetalhesConsultasHelper helper;
+    private Consulta consulta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detalhes);
-
-        helper = new DetalhesHelper(this);
-
-        Intent intent = getIntent();
-
-        Consulta consulta = (Consulta) intent.getSerializableExtra("consulta");
-        if (consulta != null){
-            helper.popularForm(consulta);
-        }
+        setContentView(R.layout.layout_detalhes_consulta);
+        obtemObjetos();
+        inicializaObjetos();
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_detalhes, menu);
-
+        inflater.inflate(R.menu.menu_detalhes_consultas, menu);
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -48,15 +40,38 @@ public class DetalhesActivity extends AppCompatActivity {
 
                 if (consulta.getId() != null){
                     dao.atualizar(consulta);
-                    Toast.makeText(DetalhesActivity.this, "Atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                    exibirToast(getString(R.string.toast_atualizado));
                 } else {
                     dao.inserir(consulta);
-                    Toast.makeText(DetalhesActivity.this, "Adicionado com sucesso!", Toast.LENGTH_SHORT).show();
+                    exibirToast(getString(R.string.toast_atualizado));
                 }
-                dao.close();
                 finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Instancia os objetos
+     */
+    public void inicializaObjetos() {
+        helper = new DetalhesConsultasHelper(this);
+        if (consulta != null)
+            helper.popularForm(consulta);
+    }
+
+    /**
+     * Resgata objetos da intent
+     */
+    public void obtemObjetos() {
+        consulta = (Consulta) getIntent().getSerializableExtra("consulta");
+    }
+
+    /**
+     * Exibe toast
+     * @param mensagem mensagem a ser exibida
+     */
+    public void exibirToast(String mensagem) {
+        Toast.makeText(DetalhesConsultasActivity.this, mensagem, Toast.LENGTH_SHORT).show();
     }
 }

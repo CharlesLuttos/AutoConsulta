@@ -6,31 +6,46 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.android.luttos.autoconsulta.dao.UsuarioDAO2;
-import com.android.luttos.autoconsulta.dao.UsuarioDAO2;
+import com.android.luttos.autoconsulta.dao.UsuarioDAO;
 import com.android.luttos.autoconsulta.model.Usuario;
 
-public class CadastroUsuario extends AppCompatActivity {
+public class CadastroUsuarioActivity extends AppCompatActivity {
     Button buttonCadastroUsuario;
     Usuario usuario;
     EditText txtNomeUsuario;
-    UsuarioDAO2 usuarioDAO;
+    UsuarioDAO usuarioDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_usuario);
-        buttonCadastroUsuario = findViewById(R.id.btnCadastroUsuario);
-        txtNomeUsuario = findViewById(R.id.txtNomeUsuario);
+        setContentView(R.layout.layout_cadastro_usuario);
+
+        inicializaBanco();
+        inicializarComponentes();
+
         buttonCadastroUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuarioDAO = new UsuarioDAO2(CadastroUsuario.this);
                 usuario = new Usuario(txtNomeUsuario.getText().toString());
                 usuarioDAO.inserir(usuario);
                 finish();
             }
         });
 
+    }
+
+    /**
+     * Inicializa banco criando conexao e tabelas
+     */
+    private void inicializaBanco(){
+        usuarioDAO  = new UsuarioDAO(getBaseContext());
+    }
+
+    /**
+     * Instancia os componentes
+     */
+    private void inicializarComponentes() {
+        buttonCadastroUsuario = findViewById(R.id.btnCadastroUsuario);
+        txtNomeUsuario = findViewById(R.id.txtNomeUsuario);
     }
 }

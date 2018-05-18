@@ -22,10 +22,9 @@ public class Usuario implements Serializable{
         this.nome = nome;
     }
 
-    public Usuario() {
+    public Usuario() { }
 
-    }
-
+    @SuppressWarnings("unused")
     public Usuario(int id) {
         this.id = id;
     }
@@ -34,6 +33,7 @@ public class Usuario implements Serializable{
         this.nome = nome;
     }
 
+    @SuppressWarnings("unused")
     public Usuario(int id, String nome) {
         this.id = id;
         this.nome = nome;

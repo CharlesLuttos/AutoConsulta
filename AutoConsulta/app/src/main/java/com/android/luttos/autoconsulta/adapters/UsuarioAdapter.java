@@ -1,17 +1,14 @@
-package com.android.luttos.autoconsulta;
+package com.android.luttos.autoconsulta.adapters;
 
 import android.content.Context;
-import android.content.res.Resources;
-import android.content.res.TypedArray;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.luttos.autoconsulta.model.Consulta;
+import com.android.luttos.autoconsulta.R;
 import com.android.luttos.autoconsulta.model.Usuario;
 
 import java.util.List;
