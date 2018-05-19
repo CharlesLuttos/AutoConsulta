@@ -1,8 +1,11 @@
 package com.android.luttos.autoconsulta.UnitsTests;
 
 import android.content.Intent;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.CadastroUsuarioActivity;
+import com.android.luttos.autoconsulta.ConsultasActivity;
 import com.android.luttos.autoconsulta.R;
 import com.android.luttos.autoconsulta.UsuarioActivity;
 
@@ -26,6 +29,19 @@ public class UsuarioActivityTest {
         Intent expectedIntent = new Intent(activity, CadastroUsuarioActivity.class);
         Intent actual = ShadowApplication.getInstance().getNextStartedActivity();
         assertEquals(expectedIntent.getComponent(), actual.getComponent());
+    }
+
+    @Test
+    public void clickNovoUsuarioCampoUsuarioVazio_exibirToast(){
+        CadastroUsuarioActivity activity = Robolectric.setupActivity(CadastroUsuarioActivity.class);
+        EditText txt = activity.findViewById(R.id.txtNomeUsuario);
+        txt.setText("");
+        activity.findViewById(R.id.btnCadastroUsuario).performClick();
+
+        Toast expectedToast = Toast.makeText(activity, "Campo vazio!", Toast.LENGTH_SHORT);
+        Toast actualToast = (Toast) ShadowApplication.getInstance().getShownToasts();
+
+        assertEquals(expectedToast.getDuration(), actualToast.getDuration());
     }
 
 }

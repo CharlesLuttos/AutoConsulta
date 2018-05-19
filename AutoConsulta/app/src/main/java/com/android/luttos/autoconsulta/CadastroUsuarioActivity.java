@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.UsuarioDAO;
 import com.android.luttos.autoconsulta.model.Usuario;
@@ -26,9 +27,13 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         buttonCadastroUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                usuario = new Usuario(txtNomeUsuario.getText().toString());
-                usuarioDAO.inserir(usuario);
-                finish();
+                if (txtNomeUsuario.getText().toString().isEmpty()) {
+                    Toast.makeText(CadastroUsuarioActivity.this, R.string.toast_usuario_vazio, Toast.LENGTH_SHORT).show();
+                } else {
+                    usuario = new Usuario(txtNomeUsuario.getText().toString());
+                    usuarioDAO.inserir(usuario);
+                    finish();
+                }
             }
         });
 
@@ -37,8 +42,8 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
     /**
      * Inicializa banco criando conexao e tabelas
      */
-    private void inicializaBanco(){
-        usuarioDAO  = new UsuarioDAO(getBaseContext());
+    private void inicializaBanco() {
+        usuarioDAO = new UsuarioDAO(getBaseContext());
     }
 
     /**

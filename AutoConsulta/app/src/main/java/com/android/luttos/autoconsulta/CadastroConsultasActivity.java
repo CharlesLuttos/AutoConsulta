@@ -51,9 +51,11 @@ public class CadastroConsultasActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0){
+                if (txtCodigo.getText().toString().isEmpty()) {
+                    Toast.makeText(CadastroConsultasActivity.this, R.string.toast_consulta_vazio, Toast.LENGTH_SHORT).show();
+                } else if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0) {
                     codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                    new ObterDadosJson().execute("http://192.168.0.2/autoconsulta/"+codigoConsulta);
+                    new ObterDadosJson().execute("http://192.168.0.2/autoconsulta/" + codigoConsulta);
                 } else {
                     exibirAlertDialog("Dados", "Digite o código da solicitaçao");
                 }
@@ -115,10 +117,10 @@ public class CadastroConsultasActivity extends AppCompatActivity {
 
                 String line;
 
-                while ((line = reader.readLine()) != null){
-                    String lineBreak = line+"/n";
+                while ((line = reader.readLine()) != null) {
+                    String lineBreak = line + "/n";
                     buffer.append(lineBreak);
-                    Log.d("Response: ", "> "+line);
+                    Log.d("Response: ", "> " + line);
                 }
 
                 String jsonString = buffer.toString();
@@ -130,7 +132,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
                     Log.d("Unidade solicitante: ", jsonObject.get("unidade_solicitante").toString());
                     Log.d("Local atendimento: ", jsonObject.get("local_atendimento").toString());
                     Log.d("Situacao: ", jsonObject.get("situacao").toString());
-                }catch (Throwable T) {
+                } catch (Throwable T) {
                     T.printStackTrace();
                 }
                 return buffer.toString();
@@ -150,12 +152,12 @@ public class CadastroConsultasActivity extends AppCompatActivity {
                     if (reader != null) {
                         reader.close();
                     }
-                }catch (IOException IOEx) {
+                } catch (IOException IOEx) {
                     IOEx.printStackTrace();
                 }
 
                 try {
-                    if (jsonObject != null){
+                    if (jsonObject != null) {
                         formarObjetoConsulta(jsonObject);
                         finish();
                     } else {
@@ -167,13 +169,14 @@ public class CadastroConsultasActivity extends AppCompatActivity {
             }
             return null;
         }
+
         @Override
-        protected void onPostExecute(String result){
+        protected void onPostExecute(String result) {
 
         }
     }
 
-    private void formarObjetoConsulta(JSONObject jsonObject) throws JSONException{
+    private void formarObjetoConsulta(JSONObject jsonObject) throws JSONException {
         consulta = new Consulta();
         consulta.setCodigoConsulta(codigoConsulta);
         consulta.setPaciente(jsonObject.get("paciente").toString());
@@ -187,13 +190,13 @@ public class CadastroConsultasActivity extends AppCompatActivity {
 
     private void inserirConsulta(Consulta c) {
         try {
-             consultaDAO.inserir(c);
+            consultaDAO.inserir(c);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void exibirToast(String mensagem, int duracao){
+    public void exibirToast(String mensagem, int duracao) {
         Toast.makeText(this, mensagem, duracao).show();
     }
 
