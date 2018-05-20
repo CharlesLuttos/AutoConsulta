@@ -17,6 +17,8 @@
     <string name="situacao">Situação:</string>
     <string name="toast_excluir_consulta">Consulta Excluída!</string>
     <string name="toast_atualizado">Atualizado!</string>
+    <string name="toast_usuario_vazio">Digite um Usuário!</string>
+    <string name="toast_consulta_vazio">Digite um Código de Consulta!</string>
     <string name="menu_suspenso_apagar">Apagar</string>
     <string name="menu_suspenso_maps">Buscar no Mapa</string>
     <string name="menu_suspenso_alerta">Criar Alerta</string>

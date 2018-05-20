@@ -18,6 +18,8 @@
     <string name="situacao">Status:</string>
     <string name="toast_excluir_consulta">Appointment Deleted!</string>
     <string name="toast_atualizado">Updated!</string>
+    <string name="toast_usuario_vazio">User is Empty!</string>
+    <string name="toast_consulta_vazio">Appointment Code is Empty!</string>
     <string name="menu_suspenso_apagar">Delete</string>
     <string name="menu_suspenso_maps">Search on Maps</string>
     <string name="menu_suspenso_alerta">Set Alert</string>

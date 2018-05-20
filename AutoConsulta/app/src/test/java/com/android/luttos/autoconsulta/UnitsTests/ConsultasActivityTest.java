@@ -15,7 +15,7 @@ import org.robolectric.shadows.ShadowApplication;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-public class ConsultaActivityTest {
+public class ConsultasActivityTest {
 
     @Test
     public void clickNovaConsulta_abrirCadastroConsultaActivity(){
