@@ -36,11 +36,11 @@ public class UsuarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_usuario);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         inicializaBanco();
         inicializaComponentes();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         definirToolbarIcon();
         listViewUsuarios.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
