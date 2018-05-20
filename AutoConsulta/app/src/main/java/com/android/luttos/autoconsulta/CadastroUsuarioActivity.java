@@ -23,11 +23,11 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_cadastro_usuario);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         inicializaBanco();
         inicializarComponentes();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         definirToolbarIcon();
         buttonCadastroUsuario.setOnClickListener(new View.OnClickListener() {
             @Override

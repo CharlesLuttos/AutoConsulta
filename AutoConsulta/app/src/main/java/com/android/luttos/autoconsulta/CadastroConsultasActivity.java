@@ -47,12 +47,12 @@ public class CadastroConsultasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_cadastro_consulta);
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         resgatarObjetos();
         inicializarObjetos();
         inicializarComponentes();
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
         definirToolbarIcon();
         button.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -21,10 +21,11 @@ public class DetalhesConsultasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.layout_detalhes_consulta);
-        obtemObjetos();
-        inicializaObjetos();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        obtemObjetos();
+        inicializaObjetos();
         definirToolbarIcon();
     }
 
