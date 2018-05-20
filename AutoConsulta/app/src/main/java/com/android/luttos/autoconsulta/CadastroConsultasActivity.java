@@ -51,7 +51,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtCodigo.getText().toString().isEmpty()) {
+                if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0){
                     Toast.makeText(CadastroConsultasActivity.this, R.string.toast_consulta_vazio, Toast.LENGTH_SHORT).show();
                 } else if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0) {
                     codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
