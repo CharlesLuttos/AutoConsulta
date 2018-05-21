@@ -15,10 +15,10 @@ import com.android.luttos.autoconsulta.dao.UsuarioDAO;
 import com.android.luttos.autoconsulta.model.Usuario;
 
 public class CadastroUsuarioActivity extends AppCompatActivity {
-    Button buttonCadastroUsuario;
-    Usuario usuario;
-    EditText txtNomeUsuario;
-    UsuarioDAO usuarioDAO;
+    private Button buttonCadastroUsuario;
+    private Usuario usuario;
+    private EditText txtNomeUsuario;
+    private UsuarioDAO usuarioDAO;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,14 +30,14 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         inicializaBanco();
         inicializarComponentes();
         definirToolbarIcon();
-        buttonCadastroUsuario.setOnClickListener(new View.OnClickListener() {
+        getButtonCadastroUsuario().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (txtNomeUsuario.getText().toString().isEmpty()) {
+                if (getTxtNomeUsuario().getText().toString().isEmpty()) {
                     Toast.makeText(CadastroUsuarioActivity.this, R.string.toast_usuario_vazio, Toast.LENGTH_SHORT).show();
                 } else {
-                    usuario = new Usuario(txtNomeUsuario.getText().toString());
-                    usuarioDAO.inserir(usuario);
+                    setUsuario(new Usuario(getTxtNomeUsuario().getText().toString()));
+                    getUsuarioDAO().inserir(getUsuario());
                     finish();
                 }
             }
@@ -49,15 +49,15 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
      * Inicializa banco criando conexao e tabelas
      */
     private void inicializaBanco() {
-        usuarioDAO = new UsuarioDAO(getBaseContext());
+        setUsuarioDAO(new UsuarioDAO(getBaseContext()));
     }
 
     /**
      * Instancia os componentes
      */
     private void inicializarComponentes() {
-        buttonCadastroUsuario = findViewById(R.id.btnCadastroUsuario);
-        txtNomeUsuario = findViewById(R.id.txtNomeUsuario);
+        setButtonCadastroUsuario((Button) findViewById(R.id.btnCadastroUsuario));
+        setTxtNomeUsuario((EditText) findViewById(R.id.txtNomeUsuario));
     }
 
     @Override
@@ -95,5 +95,37 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
         } catch (NullPointerException ex) {
             ex.printStackTrace();
         }
+    }
+
+    public Button getButtonCadastroUsuario() {
+        return buttonCadastroUsuario;
+    }
+
+    public void setButtonCadastroUsuario(Button buttonCadastroUsuario) {
+        this.buttonCadastroUsuario = buttonCadastroUsuario;
+    }
+
+    public Usuario getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(Usuario usuario) {
+        this.usuario = usuario;
+    }
+
+    public EditText getTxtNomeUsuario() {
+        return txtNomeUsuario;
+    }
+
+    public void setTxtNomeUsuario(EditText txtNomeUsuario) {
+        this.txtNomeUsuario = txtNomeUsuario;
+    }
+
+    public UsuarioDAO getUsuarioDAO() {
+        return usuarioDAO;
+    }
+
+    public void setUsuarioDAO(UsuarioDAO usuarioDAO) {
+        this.usuarioDAO = usuarioDAO;
     }
 }

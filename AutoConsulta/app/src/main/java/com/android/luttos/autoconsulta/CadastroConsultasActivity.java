@@ -164,7 +164,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
 
                 try {
                     if (jsonObject != null) {
-                        formarObjetoConsulta(jsonObject);
+                        formarObjetoConsulta(jsonObject, false);
                         finish();
                     } else {
                         exibirToast("Consulta não cadastrada", Toast.LENGTH_LONG);
@@ -182,17 +182,60 @@ public class CadastroConsultasActivity extends AppCompatActivity {
         }
     }
 
-    private void formarObjetoConsulta(JSONObject jsonObject) throws JSONException {
+    /**
+     * Forma um objeto Consulta a partir de um JSON
+     * @param jsonObject objeto JSON com os dados da consulta
+     * @param test Flag de testes
+     * @return Objeto de consulta com os dados do JSON
+     * @throws JSONException Ao nao conseguir montar o objeto
+     */
+    public Consulta formarObjetoConsulta(JSONObject jsonObject, boolean test) throws JSONException {
         consulta = new Consulta();
-        consulta.setCodigoConsulta(codigoConsulta);
-        consulta.setPaciente(jsonObject.get("paciente").toString());
-        consulta.setProcedimento(jsonObject.get("procedimento").toString());
-        consulta.setUnidadeSolicitante(jsonObject.get("unidade_solicitante").toString());
-        consulta.setLocal(jsonObject.get("local_atendimento").toString());
-        consulta.setSituacao(Integer.parseInt(jsonObject.get("situacao").toString()));
+        boolean invalido = true;
+
+        if(jsonObject.has("cod_consulta")) {
+            consulta.setCodigoConsulta(jsonObject.getInt("cod_consulta"));
+            invalido = false;
+        } else {
+            invalido = true;
+        }
+        if(jsonObject.has("paciente")) {
+            consulta.setPaciente(jsonObject.get("paciente").toString());
+            invalido = false;
+        } else {
+            invalido = true;
+        }
+        if(jsonObject.has("procedimento")) {
+            consulta.setProcedimento(jsonObject.get("procedimento").toString());
+            invalido = false;
+        } else {
+            invalido = true;
+        }
+        if(jsonObject.has("unidade_solicitante")) {
+            consulta.setUnidadeSolicitante(jsonObject.get("unidade_solicitante").toString());
+            invalido = false;
+        } else {
+            invalido = true;
+        }
+        if(jsonObject.has("local_atendimento")) {
+            consulta.setLocal(jsonObject.get("local_atendimento").toString());
+            invalido = false;
+        } else {
+            invalido = true;
+        }
+        if(jsonObject.has("situacao")) {
+            consulta.setSituacao(Integer.parseInt(jsonObject.get("situacao").toString()));
+            invalido = false;
+        } else {
+            invalido = true;
+        }
         consulta.setUsuario(usuario);
-        inserirConsulta(consulta);
+        if(!test && !invalido) {
+            inserirConsulta(consulta);
+        }
+        return consulta;
     }
+
 
     private void inserirConsulta(Consulta c) {
         try {

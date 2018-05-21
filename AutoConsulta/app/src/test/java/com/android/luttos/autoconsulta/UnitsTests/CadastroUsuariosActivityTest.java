@@ -5,7 +5,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.CadastroUsuarioActivity;
-import com.android.luttos.autoconsulta.ConsultasActivity;
 import com.android.luttos.autoconsulta.R;
 import com.android.luttos.autoconsulta.UsuarioActivity;
 
@@ -18,7 +17,7 @@ import org.robolectric.shadows.ShadowApplication;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
-public class UsuarioActivityTest {
+public class CadastroUsuariosActivityTest {
 
     @Test
     public void clickNovoUsuario_abrirCadastroUsuarioActivity(){
