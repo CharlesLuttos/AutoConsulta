@@ -21,7 +21,7 @@ public class ConsultasActivityTest extends ActivityTestCase{
     @Test
     public void clickNovaConsulta_abrirCadastroConsultaActivity(){
 
-        ConsultasActivity activity = Robolectric.setupActivity(ConsultasActivity.class);
+        ConsultasActivity activity = Robolectric.buildActivity(ConsultasActivity.class).create().visible().get();
         activity.findViewById(R.id.fab).performClick();
 
         Intent expectedIntent = new Intent(activity, CadastroConsultasActivity.class);

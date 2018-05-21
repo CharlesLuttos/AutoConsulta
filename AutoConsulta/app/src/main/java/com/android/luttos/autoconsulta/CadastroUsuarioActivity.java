@@ -85,15 +85,17 @@ public class CadastroUsuarioActivity extends AppCompatActivity {
     /**
      * Define icone da toolbar
      */
-    private void definirToolbarIcon() {
+    public boolean definirToolbarIcon() {
         try {
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null)
                 actionBar.setDisplayShowTitleEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
             getSupportActionBar().setIcon(R.drawable.ic_toolbar);
+            return true;
         } catch (NullPointerException ex) {
             ex.printStackTrace();
+            return false;
         }
     }
 
