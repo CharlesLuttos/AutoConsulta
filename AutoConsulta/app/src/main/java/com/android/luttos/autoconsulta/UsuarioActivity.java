@@ -1,7 +1,10 @@
 package com.android.luttos.autoconsulta;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -24,13 +27,14 @@ import java.util.ArrayList;
 /**********************
  * Activity principal *
  *********************/
-public class UsuarioActivity extends AppCompatActivity {
+public class UsuarioActivity extends AppCompatActivity implements ConsultasFragment.OnFragmentInteractionListener{
     ArrayList<Usuario> listaUsuarios;
     UsuarioAdapter usuarioAdapter;
     ListView listViewUsuarios;
     Usuario usuario;
     UsuarioDAO usuarioDAO;
     FloatingActionButton fab;
+    private FragmentManager mFragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,9 +50,17 @@ public class UsuarioActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
                 Usuario usuario = (Usuario) listViewUsuarios.getItemAtPosition(position);
-                Intent formActivity = new Intent(UsuarioActivity.this, ConsultasActivity.class);
-                formActivity.putExtra("usuario", usuario);
-                startActivity(formActivity);
+
+                if (isTablet()){
+                    ConsultasFragment consultasFragment = ConsultasFragment.newInstance(usuario);
+                    FragmentTransaction ft = mFragmentManager.beginTransaction();
+                    ft.replace(R.id.fragment_detalhe, consultasFragment, "usuario");
+                    ft.commit();
+                }else {
+                    Intent formActivity = new Intent(UsuarioActivity.this, ConsultasActivity.class);
+                    formActivity.putExtra("usuario", usuario);
+                    startActivity(formActivity);
+                }
             }
         });
 
@@ -96,6 +108,7 @@ public class UsuarioActivity extends AppCompatActivity {
      */
     private void inicializaComponentes() {
         listViewUsuarios = findViewById(R.id.lista_usuario);
+        mFragmentManager = getSupportFragmentManager();
         fab = findViewById(R.id.fab);
     }
 
@@ -155,4 +168,15 @@ public class UsuarioActivity extends AppCompatActivity {
             ex.printStackTrace();
         }
     }
+
+    /**
+     * Verifica se aparelho e tablet
+     * @return boolean
+     */
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.tablet);
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {}
 }

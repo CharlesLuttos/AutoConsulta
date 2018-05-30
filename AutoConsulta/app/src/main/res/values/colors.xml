@@ -4,4 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="bright">#ffffff</color>
+    <color name="lightGreen">#82f489</color>
+    <color name="lightYellow">#f4f082</color>
+    <color name="lightBlue">#8bf7f9</color>
 </resources>
