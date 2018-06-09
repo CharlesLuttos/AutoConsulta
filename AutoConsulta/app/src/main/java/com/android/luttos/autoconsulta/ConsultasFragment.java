@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -102,15 +103,18 @@ public class ConsultasFragment extends Fragment {
      * Instância componentes
      * @param view view
      */
+
     public void inicializaComponentes(View view) {
         fab = view.findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent telaCadastroIntent = new Intent(getContext(), CadastroConsultasActivity.class);
+                /*Intent telaCadastroIntent = new Intent(getContext(), CadastroConsultasActivity.class);
                 telaCadastroIntent.putExtra("usuario", usuario);
-                startActivity(telaCadastroIntent);
+                startActivity(telaCadastroIntent);*/
+                DialogFragment dialog = new DialogFragment();
+                dialog.show(getActivity().getFragmentManager(), "");
             }
         });
         swipeLayout = view.findViewById(R.id.swipe_container);
