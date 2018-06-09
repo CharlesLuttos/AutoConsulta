@@ -114,6 +114,10 @@ public class ConsultasFragment extends Fragment {
         });
     }
 
+    public void exibirToast(String mensagem) {
+        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
+    }
+
     /**
      * Carrega lista com dados do banco
      * aplicando adapter
@@ -128,6 +132,7 @@ public class ConsultasFragment extends Fragment {
 
     }
 
+    @SuppressWarnings("unused")
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
