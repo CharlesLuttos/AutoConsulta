@@ -81,7 +81,7 @@ public class ConsultasFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.layout_content_consulta, container, false);
@@ -90,6 +90,8 @@ public class ConsultasFragment extends Fragment {
         definirSwipeToPush();
         return view;
     }
+
+
 
     /**
      * Inicializa banco de dados
@@ -121,21 +123,41 @@ public class ConsultasFragment extends Fragment {
      * @param view view
      */
     public void carregarLista(View view) {
-        listView = view.findViewById(R.id.lista_consulta);
+        ListView listView = view.findViewById(R.id.lista_consulta);
         listView.setEmptyView(view.findViewById(android.R.id.empty));
-        listaConsultas = consultaDAO.listar(usuario); // Necessario informar usuario para saber quais consultas listar
-        consultaAdapter = new ConsultaAdapter(getContext(), listaConsultas);
+        ArrayList<Consulta> listaConsultas = consultaDAO.listar(usuario); // Necessario informar usuario para saber quais consultas listar
+        ConsultaAdapter consultaAdapter = new ConsultaAdapter(getContext(), listaConsultas);
         listView.setAdapter(consultaAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                Consulta consulta = (Consulta) listView.getItemAtPosition(position);
-                Intent activityDetalhesConsulta = new Intent(getActivity(), DetalhesConsultasActivity.class);
-                activityDetalhesConsulta.putExtra("consulta", consulta);
-                startActivity(activityDetalhesConsulta);
+                //Consulta consulta = (Consulta) listView.getItemAtPosition(position);
+                //Intent activityDetalhesConsulta = new Intent(getActivity(), DetalhesConsultasActivity.class);
+                //activityDetalhesConsulta.putExtra("consulta", consulta);
+                //startActivity(activityDetalhesConsulta);
             }
         });
         registerForContextMenu(listView);
+    }
+
+    @SuppressWarnings("unused")
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
+        MenuItem buscarMapa = menu.add(R.string.menu_suspenso_maps);
+        MenuItem criarAlerta = menu.add(R.string.menu_suspenso_alerta);
+        MenuItem apagar = menu.add(R.string.menu_suspenso_apagar);
+        apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
+                ConsultaDAO dao = new ConsultaDAO(getActivity());
+                dao.apagar(consulta);
+                carregarLista(getView());
+                Toast.makeText(getActivity(), R.string.toast_excluir_consulta, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
     }
 
     /**
@@ -172,7 +194,7 @@ public class ConsultasFragment extends Fragment {
      * @param codigo codigo da consulta
      */
     private void getConsulta(Integer codigo){
-        AndroidNetworking.get("http:// luttos.com/autoconsulta/{codConsulta}")
+        AndroidNetworking.get("http:// 172.16.3.54:8080/autoconsulta/{codConsulta}")
                 .addPathParameter("codConsulta", codigo.toString())
                 .setTag(this)
                 .setPriority(Priority.LOW)
@@ -207,26 +229,6 @@ public class ConsultasFragment extends Fragment {
      */
     public void exibirToast(String mensagem) {
         Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
-    }
-
-    @SuppressWarnings("unused")
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem buscarMapa = menu.add(R.string.menu_suspenso_maps);
-        MenuItem criarAlerta = menu.add(R.string.menu_suspenso_alerta);
-        MenuItem apagar = menu.add(R.string.menu_suspenso_apagar);
-        apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-                Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
-                ConsultaDAO dao = new ConsultaDAO(getActivity());
-                dao.apagar(consulta);
-                carregarLista(getView());
-                Toast.makeText(getActivity(), R.string.toast_excluir_consulta, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        });
     }
 
     @SuppressWarnings("unused")
