@@ -128,15 +128,6 @@ public class ConsultasFragment extends Fragment {
 
     }
 
-    /**
-     * Exibe toast
-     * @param mensagem mensagem a ser exibida
-     */
-    public void exibirToast(String mensagem) {
-        Toast.makeText(getActivity(), mensagem, Toast.LENGTH_SHORT).show();
-    }
-
-    @SuppressWarnings("unused")
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
