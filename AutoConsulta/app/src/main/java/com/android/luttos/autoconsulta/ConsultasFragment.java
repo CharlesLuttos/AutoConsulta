@@ -83,8 +83,8 @@ public class ConsultasFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.layout_content_consulta, container, false);
         inicializaBanco();
+        carregarLista(view);
         inicializaComponentes(view);
-        definirSwipeToPush();
         return view;
     }
 
@@ -103,6 +103,7 @@ public class ConsultasFragment extends Fragment {
      */
     public void inicializaComponentes(View view) {
         fab = view.findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +112,6 @@ public class ConsultasFragment extends Fragment {
                 startActivity(telaCadastroIntent);
             }
         });
-        //swipeLayout = view.findViewById(R.id.swipe_container);
     }
 
     /**
@@ -125,99 +125,7 @@ public class ConsultasFragment extends Fragment {
         ArrayList<Consulta> listaConsultas = consultaDAO.listar(usuario); // Necessario informar usuario para saber quais consultas listar
         ConsultaAdapter consultaAdapter = new ConsultaAdapter(getContext(), listaConsultas);
         listView.setAdapter(consultaAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View item, int position, long id) {
-                //Consulta consulta = (Consulta) listView.getItemAtPosition(position);
-                //Intent activityDetalhesConsulta = new Intent(getActivity(), DetalhesConsultasActivity.class);
-                //activityDetalhesConsulta.putExtra("consulta", consulta);
-                //startActivity(activityDetalhesConsulta);
-            }
-        });
-        registerForContextMenu(listView);
-    }
 
-    @SuppressWarnings("unused")
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, final ContextMenu.ContextMenuInfo menuInfo) {
-        MenuItem buscarMapa = menu.add(R.string.menu_suspenso_maps);
-        MenuItem criarAlerta = menu.add(R.string.menu_suspenso_alerta);
-        MenuItem apagar = menu.add(R.string.menu_suspenso_apagar);
-        apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                /*AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
-                Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
-                ConsultaDAO dao = new ConsultaDAO(getActivity());
-                dao.apagar(consulta);
-                carregarLista(getView());
-                Toast.makeText(getActivity(), R.string.toast_excluir_consulta, Toast.LENGTH_SHORT).show();*/
-                return false;
-            }
-        });
-    }
-
-    /**
-     * Evento para a açāo de deslizar o dedo para baixo na tela do Android
-     */
-    private void definirSwipeToPush() {
-        /*swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                // Codigo funcional
-                for (Consulta c : listaConsultas) {
-                    getConsulta(c.getCodigoConsulta());
-                }
-                carregarLista(getView());
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        swipeLayout.setRefreshing(false);
-                    }
-                }, 4000);
-                exibirToast(getString(R.string.toast_atualizado));
-            }
-        });
-        swipeLayout.setColorSchemeColors( // Muda a cor da animacao (1 segundo para cada cor)
-                getResources().getColor(android.R.color.holo_blue_bright),
-                getResources().getColor(android.R.color.holo_green_light),
-                getResources().getColor(android.R.color.holo_orange_light),
-                getResources().getColor(android.R.color.holo_red_light)
-        );
-    }
-
-    *//**
-     * Obtem uma consulta atualizada da API
-     * @param codigo codigo da consulta
-     *//*
-    private void getConsulta(Integer codigo){
-        AndroidNetworking.get("http:// 172.16.3.54:8080/autoconsulta/{codConsulta}")
-                .addPathParameter("codConsulta", codigo.toString())
-                .setTag(this)
-                .setPriority(Priority.LOW)
-                .build()
-                .getAsObject(Consulta.class, new ParsedRequestListener<Consulta>() {
-                    @Override
-                    public void onResponse(Consulta user) {
-                        for(Consulta c : listaConsultas){
-                            if(c.getSituacao().equals(user.getSituacao())){
-                                c.setPaciente(user.getPaciente());
-                                c.setUnidadeSolicitante(user.getUnidadeSolicitante());
-                                c.setLocal(user.getLocal());
-                                c.setProcedimento(user.getProcedimento());
-                                consultaDAO.atualizar(c);
-                            }
-                        }
-                        consultaAdapter = new ConsultaAdapter(getContext(), listaConsultas);
-                        listView.setAdapter(consultaAdapter);
-                        registerForContextMenu(listView);
-                    }
-
-                    @Override
-                    public void onError(ANError anError) {
-                        Log.d("Error: ", anError.getMessage());
-                    }
-                });*/
     }
 
     /**
@@ -233,13 +141,6 @@ public class ConsultasFragment extends Fragment {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        carregarLista(getView());
-        definirSwipeToPush();
     }
 
     @Override
