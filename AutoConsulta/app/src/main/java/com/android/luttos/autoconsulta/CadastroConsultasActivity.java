@@ -61,7 +61,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
                     Toast.makeText(CadastroConsultasActivity.this, R.string.toast_consulta_vazio, Toast.LENGTH_SHORT).show();
                 } else if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0) {
                     codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                    new ObterDadosJson().execute("http://192.168.7.2/autoconsulta/" + codigoConsulta);
+                    new ObterDadosJson().execute("http://luttos.com/autoconsulta/" + codigoConsulta);
                 } else {
                     exibirAlertDialog("Dados", "Digite o código da solicitaçao");
                 }
