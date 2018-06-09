@@ -2,13 +2,8 @@ package com.android.luttos.autoconsulta.dao;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-
-import com.android.luttos.autoconsulta.model.Consulta;
-
-import java.util.ArrayList;
 
 public class DAO extends SQLiteOpenHelper{
 
