@@ -45,13 +45,10 @@ public class ConsultasFragment extends Fragment {
 
     private Usuario usuario;
     private ConsultaDAO consultaDAO;
-    private SwipeRefreshLayout swipeLayout;
-    private ListView listView;
-    private ArrayList<Consulta> listaConsultas;
-    private ConsultaAdapter consultaAdapter;
+
     private OnFragmentInteractionListener mListener;
 
-    FloatingActionButton fab;
+    private FloatingActionButton fab;
 
     public ConsultasFragment() {
         // Required empty public constructor
@@ -114,7 +111,7 @@ public class ConsultasFragment extends Fragment {
                 startActivity(telaCadastroIntent);
             }
         });
-        swipeLayout = view.findViewById(R.id.swipe_container);
+        //swipeLayout = view.findViewById(R.id.swipe_container);
     }
 
     /**
@@ -149,12 +146,12 @@ public class ConsultasFragment extends Fragment {
         apagar.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
+                /*AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)menuInfo;
                 Consulta consulta = (Consulta) listView.getItemAtPosition(info.position);
                 ConsultaDAO dao = new ConsultaDAO(getActivity());
                 dao.apagar(consulta);
                 carregarLista(getView());
-                Toast.makeText(getActivity(), R.string.toast_excluir_consulta, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.toast_excluir_consulta, Toast.LENGTH_SHORT).show();*/
                 return false;
             }
         });
@@ -164,7 +161,7 @@ public class ConsultasFragment extends Fragment {
      * Evento para a açāo de deslizar o dedo para baixo na tela do Android
      */
     private void definirSwipeToPush() {
-        swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        /*swipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Codigo funcional
@@ -189,10 +186,10 @@ public class ConsultasFragment extends Fragment {
         );
     }
 
-    /**
+    *//**
      * Obtem uma consulta atualizada da API
      * @param codigo codigo da consulta
-     */
+     *//*
     private void getConsulta(Integer codigo){
         AndroidNetworking.get("http:// 172.16.3.54:8080/autoconsulta/{codConsulta}")
                 .addPathParameter("codConsulta", codigo.toString())
@@ -220,7 +217,7 @@ public class ConsultasFragment extends Fragment {
                     public void onError(ANError anError) {
                         Log.d("Error: ", anError.getMessage());
                     }
-                });
+                });*/
     }
 
     /**
