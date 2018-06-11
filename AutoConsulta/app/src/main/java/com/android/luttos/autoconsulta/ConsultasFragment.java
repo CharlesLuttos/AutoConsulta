@@ -1,6 +1,7 @@
 package com.android.luttos.autoconsulta;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,7 +9,6 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.ContextMenu;
@@ -40,7 +40,7 @@ import java.util.ArrayList;
  * Use the {@link ConsultasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConsultasFragment extends Fragment {
+public class ConsultasFragment extends Fragment implements DialogInterface.OnDismissListener {
 
     private static final String USUARIO = "usuario";
 
@@ -92,6 +92,7 @@ public class ConsultasFragment extends Fragment {
         return view;
     }
 
+
     /**
      * Inicializa banco de dados
      */
@@ -110,14 +111,25 @@ public class ConsultasFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                /*Intent telaCadastroIntent = new Intent(getContext(), CadastroConsultasActivity.class);
-                telaCadastroIntent.putExtra("usuario", usuario);
-                startActivity(telaCadastroIntent);*/
-                DialogFragment dialog = new DialogFragment();
-                dialog.show(getActivity().getFragmentManager(), "");
+                if(isTablet()){
+                    CadastroConsultaFragment dialog = CadastroConsultaFragment.newInstance(usuario);
+                    dialog.show(getActivity().getFragmentManager(), "");
+                }else{
+                    Intent telaCadastroIntent = new Intent(getContext(), CadastroConsultasActivity.class);
+                    telaCadastroIntent.putExtra("usuario", usuario);
+                    startActivity(telaCadastroIntent);
+                }
+
+
             }
         });
         swipeLayout = view.findViewById(R.id.swipe_container);
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        carregarLista(getView());
+        consultaAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -278,5 +290,8 @@ public class ConsultasFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.tablet);
     }
 }

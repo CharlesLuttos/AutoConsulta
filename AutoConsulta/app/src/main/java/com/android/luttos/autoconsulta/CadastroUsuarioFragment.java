@@ -1,7 +1,7 @@
 package com.android.luttos.autoconsulta;
 
 import android.app.Activity;
-import android.app.Dialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import com.android.luttos.autoconsulta.dao.UsuarioDAO;
 import com.android.luttos.autoconsulta.model.Usuario;
@@ -18,9 +17,9 @@ import com.android.luttos.autoconsulta.model.Usuario;
  * Created by pesso on 11/06/2018.
  */
 
-public class DialogFragmentConsulta extends DialogFragment {
+public class CadastroUsuarioFragment extends CadastroConsultaFragment {
 
-    private static final String TAG = "DialogFragment";
+    private static final String TAG = "CadastroConsultaFragment";
     private UsuarioDAO usuarioDAO;
     private Usuario usuario;
     private EditText txtNomeUsuario;
@@ -32,6 +31,8 @@ public class DialogFragmentConsulta extends DialogFragment {
         Button btnCadastroUser = (Button) view.findViewById(R.id.btnCadastroUsuario);
         txtNomeUsuario = (EditText) view.findViewById(R.id.txtNomeUsuario);
         setUsuarioDAO(new UsuarioDAO(getActivity()));
+
+
         btnCadastroUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -42,6 +43,16 @@ public class DialogFragmentConsulta extends DialogFragment {
         });
         return view;
     }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        super.onDismiss(dialog);
+        final Activity activity = getActivity();
+        if (activity instanceof DialogInterface.OnDismissListener) {
+            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+        }
+    }
+
 
     @Override
     public void onResume() {

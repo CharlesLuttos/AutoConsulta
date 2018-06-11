@@ -1,5 +1,6 @@
 package com.android.luttos.autoconsulta;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
@@ -27,7 +28,7 @@ import java.util.ArrayList;
 /**********************
  * Activity principal *
  *********************/
-public class UsuarioActivity extends AppCompatActivity implements ConsultasFragment.OnFragmentInteractionListener{
+public class UsuarioActivity extends AppCompatActivity implements ConsultasFragment.OnFragmentInteractionListener, DialogInterface.OnDismissListener{
     ArrayList<Usuario> listaUsuarios;
     UsuarioAdapter usuarioAdapter;
     ListView listViewUsuarios;
@@ -67,10 +68,21 @@ public class UsuarioActivity extends AppCompatActivity implements ConsultasFragm
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent telaCadastroUsuario = new Intent(UsuarioActivity.this, CadastroUsuarioActivity.class);
-                startActivity(telaCadastroUsuario);
+                if(isTablet()){
+                    CadastroUsuarioFragment dialog = new CadastroUsuarioFragment();
+                    dialog.show(UsuarioActivity.this.getFragmentManager(), "");
+
+
+                }else{
+                    Intent telaCadastroUsuario = new Intent(UsuarioActivity.this, CadastroUsuarioActivity.class);
+                    startActivity(telaCadastroUsuario);
+                }
             }
         });
+    }
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+       carregarLista();
     }
 
     @Override
