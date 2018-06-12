@@ -19,6 +19,7 @@ import android.widget.Toast;
 import com.android.luttos.autoconsulta.dao.ConsultaDAO;
 import com.android.luttos.autoconsulta.model.Consulta;
 import com.android.luttos.autoconsulta.model.Usuario;
+import com.android.luttos.autoconsulta.util.ObterDadosJson2;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -33,10 +34,11 @@ import java.net.URL;
 
 
 public class CadastroConsultasActivity extends AppCompatActivity {
+    private final String URL = "http://192.168.7.2:8000/autoconsulta/";
     EditText txtCodigo;
     Button button;
     Consulta consulta;
-    int codigoConsulta;
+    String codigoConsulta;
     ConsultaDAO consultaDAO;
     JSONObject jsonObject;
     ProgressDialog pd;
@@ -59,11 +61,20 @@ public class CadastroConsultasActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (txtCodigo.getText().toString().isEmpty()) {
                     Toast.makeText(CadastroConsultasActivity.this, R.string.toast_consulta_vazio, Toast.LENGTH_SHORT).show();
-                } else if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0) {
-                    codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                    new ObterDadosJson().execute("http://luttos.com/autoconsulta/" + codigoConsulta);
-                } else {
-                    exibirAlertDialog("Dados", "Digite o código da solicitaçao");
+                }else {
+                    codigoConsulta = txtCodigo.getText().toString();
+                    try {
+                        ObterDadosJson2 dadosJson = new ObterDadosJson2(CadastroConsultasActivity.this);
+                        dadosJson.execute(codigoConsulta);
+                        jsonObject = dadosJson.getObjetoJSON();
+                        consulta = formarObjetoConsulta(jsonObject);
+                        if (consulta != null)
+                            inserirConsulta(consulta);
+                        finish();
+                        //new ObterDadosJson().execute(codigoConsulta);
+                    }catch (Exception x) {
+                        x.printStackTrace();
+                    }
                 }
             }
         });
@@ -95,7 +106,6 @@ public class CadastroConsultasActivity extends AppCompatActivity {
     /**
      * Classe para obter os dados da API em Json
      */
-    @SuppressLint("StaticFieldLeak")
     private class ObterDadosJson extends AsyncTask<String, String, String> {
         @Override
         protected void onPreExecute() {
@@ -111,7 +121,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
             HttpURLConnection connection = null;
             BufferedReader reader = null;
             try {
-                URL url = new URL(strings[0]);
+                URL url = new URL(URL+strings[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
 
@@ -164,7 +174,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
 
                 try {
                     if (jsonObject != null) {
-                        formarObjetoConsulta(jsonObject, false);
+                        formarObjetoConsulta(jsonObject);
                         finish();
                     } else {
                         exibirToast("Consulta não cadastrada", Toast.LENGTH_LONG);
@@ -175,67 +185,54 @@ public class CadastroConsultasActivity extends AppCompatActivity {
             }
             return null;
         }
-
-        @Override
-        protected void onPostExecute(String result) {
-
-        }
     }
 
     /**
      * Forma um objeto Consulta a partir de um JSON
      * @param jsonObject objeto JSON com os dados da consulta
-     * @param test Flag de testes
      * @return Objeto de consulta com os dados do JSON
      * @throws JSONException Ao nao conseguir montar o objeto
      */
-    public Consulta formarObjetoConsulta(JSONObject jsonObject, boolean test) throws JSONException {
+    public Consulta formarObjetoConsulta(JSONObject jsonObject) throws JSONException {
         consulta = new Consulta();
-        boolean invalido = true;
+        boolean invalido = false;
 
         if(jsonObject.has("cod_consulta")) {
             consulta.setCodigoConsulta(jsonObject.getInt("cod_consulta"));
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("paciente")) {
             consulta.setPaciente(jsonObject.get("paciente").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("procedimento")) {
             consulta.setProcedimento(jsonObject.get("procedimento").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("unidade_solicitante")) {
             consulta.setUnidadeSolicitante(jsonObject.get("unidade_solicitante").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("local_atendimento")) {
             consulta.setLocal(jsonObject.get("local_atendimento").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("situacao")) {
             consulta.setSituacao(Integer.parseInt(jsonObject.get("situacao").toString()));
-            invalido = false;
         } else {
             invalido = true;
         }
         consulta.setUsuario(usuario);
-        if(!test && !invalido) {
-            inserirConsulta(consulta);
+        if(!invalido) {
+            return consulta;
         }
-        return consulta;
+        return null;
     }
-
 
     private void inserirConsulta(Consulta c) {
         try {

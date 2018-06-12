@@ -216,7 +216,7 @@ public class ConsultasActivity extends AppCompatActivity {
      * @param codigo codigo da consulta
      */
     private void getConsulta(Integer codigo){
-        AndroidNetworking.get("http://192.168.0.2/autoconsulta/{codConsulta}")
+        AndroidNetworking.get("http://192.168.7.2:8000/autoconsulta/{codConsulta}")
                 .addPathParameter("codConsulta", codigo.toString())
                 .setTag(this)
                 .setPriority(Priority.LOW)
@@ -224,8 +224,6 @@ public class ConsultasActivity extends AppCompatActivity {
                 .getAsObject(Consulta.class, new ParsedRequestListener<Consulta>() {
                     @Override
                     public void onResponse(Consulta user) {
-                        listView = findViewById(R.id.lista_consulta);
-                        listView.setEmptyView(findViewById(android.R.id.empty));
                         for(Consulta c : listaConsultas){
                             if(c.getSituacao().equals(user.getSituacao())){
                                 c.setPaciente(user.getPaciente());
@@ -235,9 +233,6 @@ public class ConsultasActivity extends AppCompatActivity {
                                 consultaDAO.atualizar(c);
                             }
                         }
-                        consultaAdapter = new ConsultaAdapter(getApplicationContext(), listaConsultas);
-                        listView.setAdapter(consultaAdapter);
-                        registerForContextMenu(listView);
                     }
 
                     @Override
