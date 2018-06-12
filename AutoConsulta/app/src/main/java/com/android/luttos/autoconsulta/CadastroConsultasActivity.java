@@ -36,12 +36,13 @@ public class CadastroConsultasActivity extends AppCompatActivity {
     EditText txtCodigo;
     Button button;
     Consulta consulta;
-    int codigoConsulta;
+    String codigoConsulta;
     ConsultaDAO consultaDAO;
     JSONObject jsonObject;
     ProgressDialog pd;
     AlertDialog.Builder alerta;
     Usuario usuario;
+    ObterDadosJson obterDadosJson;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +60,9 @@ public class CadastroConsultasActivity extends AppCompatActivity {
             public void onClick(View v) {
                 if (txtCodigo.getText().toString().isEmpty()) {
                     Toast.makeText(CadastroConsultasActivity.this, R.string.toast_consulta_vazio, Toast.LENGTH_SHORT).show();
-                } else if (txtCodigo.getText() != null && txtCodigo.getText().length() > 0) {
-                    codigoConsulta = Integer.parseInt(txtCodigo.getText().toString());
-                    new ObterDadosJson().execute("http://luttos.com/autoconsulta/" + codigoConsulta);
-                } else {
-                    exibirAlertDialog("Dados", "Digite o código da solicitaçao");
+                }else {
+                    codigoConsulta = txtCodigo.getText().toString();
+                    obterDadosJson.execute(codigoConsulta);
                 }
             }
         });
@@ -82,6 +81,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
     private void inicializarObjetos() {
         alerta = new AlertDialog.Builder(this);
         consultaDAO = new ConsultaDAO(getBaseContext());
+        obterDadosJson = new ObterDadosJson();
     }
 
     /**
@@ -97,6 +97,10 @@ public class CadastroConsultasActivity extends AppCompatActivity {
      */
     @SuppressLint("StaticFieldLeak")
     private class ObterDadosJson extends AsyncTask<String, String, String> {
+        private boolean malformedURL = false;
+        private boolean ioex = false;
+        private boolean ex = false;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -108,19 +112,16 @@ public class CadastroConsultasActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(String... strings) {
-            HttpURLConnection connection = null;
-            BufferedReader reader = null;
+            HttpURLConnection connection;
+            BufferedReader reader;
             try {
-                URL url = new URL(strings[0]);
+                String URL = "http://192.168.7.2:8000/autoconsulta/";
+                URL url = new URL(URL + strings[0]);
                 connection = (HttpURLConnection) url.openConnection();
                 connection.connect();
-
                 InputStream stream = connection.getInputStream();
-
                 reader = new BufferedReader(new InputStreamReader(stream));
-
                 StringBuilder buffer = new StringBuilder();
-
                 String line;
 
                 while ((line = reader.readLine()) != null) {
@@ -128,118 +129,99 @@ public class CadastroConsultasActivity extends AppCompatActivity {
                     buffer.append(lineBreak);
                     Log.d("Response: ", "> " + line);
                 }
-
                 String jsonString = buffer.toString();
-
                 try {
                     jsonObject = new JSONObject(jsonString);
-                    Log.d("Paciente: ", jsonObject.get("paciente").toString());
-                    Log.d("Procedimento: ", jsonObject.get("procedimento").toString());
-                    Log.d("Unidade solicitante: ", jsonObject.get("unidade_solicitante").toString());
-                    Log.d("Local atendimento: ", jsonObject.get("local_atendimento").toString());
-                    Log.d("Situacao: ", jsonObject.get("situacao").toString());
+                    consulta = formarObjetoConsulta(jsonObject);
                 } catch (Throwable T) {
                     T.printStackTrace();
                 }
                 return buffer.toString();
-            } catch (MalformedURLException e) {
-                e.printStackTrace();
-                exibirAlertDialog("Falha na API", "API de serviços inválida");
-            } catch (IOException e) {
-                e.printStackTrace();
-                exibirToast("Falha na conexão com a API de serviços", Toast.LENGTH_SHORT);
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            } finally {
-                if (connection != null) {
-                    connection.disconnect();
-                }
-                try {
-                    if (reader != null) {
-                        reader.close();
-                    }
-                } catch (IOException IOEx) {
-                    IOEx.printStackTrace();
-                }
 
-                try {
-                    if (jsonObject != null) {
-                        formarObjetoConsulta(jsonObject, false);
-                        finish();
-                    } else {
-                        exibirToast("Consulta não cadastrada", Toast.LENGTH_LONG);
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            } catch (MalformedURLException e) {
+                Log.d("MalformedURLException", e.getMessage());
+                malformedURL = true;
+            } catch (IOException e) {
+                Log.d("IOException", e.getMessage());
+                ioex = true;
+            } catch (Exception ex) {
+                Log.d("Exception", ex.getMessage());
+                this.ex = true;
+            } finally {
+                if (consulta != null) {
+                    inserirConsulta(consulta);
                 }
+                if (!malformedURL && !ioex && !ex) finish();
+                else pd.dismiss();
             }
             return null;
         }
 
         @Override
         protected void onPostExecute(String result) {
-
+            if (malformedURL)
+                exibirToast("URL de serviços inválida", Toast.LENGTH_SHORT);
+            if (ioex)
+                exibirToast("Falha na conexão com a API de serviços", Toast.LENGTH_SHORT);
+            if (ex)
+                exibirToast("Erro", Toast.LENGTH_SHORT);
         }
     }
 
     /**
      * Forma um objeto Consulta a partir de um JSON
      * @param jsonObject objeto JSON com os dados da consulta
-     * @param test Flag de testes
      * @return Objeto de consulta com os dados do JSON
      * @throws JSONException Ao nao conseguir montar o objeto
      */
-    public Consulta formarObjetoConsulta(JSONObject jsonObject, boolean test) throws JSONException {
+    public Consulta formarObjetoConsulta(JSONObject jsonObject) throws JSONException {
         consulta = new Consulta();
-        boolean invalido = true;
+        boolean invalido = false;
 
         if(jsonObject.has("cod_consulta")) {
             consulta.setCodigoConsulta(jsonObject.getInt("cod_consulta"));
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("paciente")) {
             consulta.setPaciente(jsonObject.get("paciente").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("procedimento")) {
             consulta.setProcedimento(jsonObject.get("procedimento").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("unidade_solicitante")) {
             consulta.setUnidadeSolicitante(jsonObject.get("unidade_solicitante").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("local_atendimento")) {
             consulta.setLocal(jsonObject.get("local_atendimento").toString());
-            invalido = false;
         } else {
             invalido = true;
         }
         if(jsonObject.has("situacao")) {
             consulta.setSituacao(Integer.parseInt(jsonObject.get("situacao").toString()));
-            invalido = false;
         } else {
             invalido = true;
         }
         consulta.setUsuario(usuario);
-        if(!test && !invalido) {
-            inserirConsulta(consulta);
+        if(!invalido) {
+            return consulta;
         }
-        return consulta;
+        return null;
     }
 
-
-    private void inserirConsulta(Consulta c) {
+    /**
+     * Insere consulta no banco de dados
+     * @param consulta Objeto de Consulta
+     */
+    private void inserirConsulta(Consulta consulta) {
         try {
-            consultaDAO.inserir(c);
+            consultaDAO.inserir(consulta);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -249,6 +231,7 @@ public class CadastroConsultasActivity extends AppCompatActivity {
         Toast.makeText(this, mensagem, duracao).show();
     }
 
+    @SuppressWarnings("unused")
     public void exibirAlertDialog(String titulo, String mensagem) {
         alerta.setTitle(titulo)
                 .setMessage(mensagem)
