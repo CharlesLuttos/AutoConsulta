@@ -1,6 +1,7 @@
 package com.android.luttos.autoconsulta;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -39,7 +40,7 @@ import java.util.ArrayList;
  * Use the {@link ConsultasFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ConsultasFragment extends Fragment {
+public class ConsultasFragment extends Fragment implements DialogInterface.OnDismissListener {
 
     private static final String USUARIO = "usuario";
 
@@ -91,6 +92,7 @@ public class ConsultasFragment extends Fragment {
         return view;
     }
 
+
     /**
      * Inicializa banco de dados
      */
@@ -102,18 +104,32 @@ public class ConsultasFragment extends Fragment {
      * Instância componentes
      * @param view view
      */
+
     public void inicializaComponentes(View view) {
         fab = view.findViewById(R.id.fab);
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent telaCadastroIntent = new Intent(getContext(), CadastroConsultasActivity.class);
-                telaCadastroIntent.putExtra("usuario", usuario);
-                startActivity(telaCadastroIntent);
+                if(isTablet()){
+                    CadastroConsultaFragment dialog = CadastroConsultaFragment.newInstance(usuario);
+                    dialog.show(getActivity().getFragmentManager(), "");
+                }else{
+                    Intent telaCadastroIntent = new Intent(getContext(), CadastroConsultasActivity.class);
+                    telaCadastroIntent.putExtra("usuario", usuario);
+                    startActivity(telaCadastroIntent);
+                }
+
+
             }
         });
         swipeLayout = view.findViewById(R.id.swipe_container);
+    }
+
+    @Override
+    public void onDismiss(final DialogInterface dialog) {
+        carregarLista(getView());
+        consultaAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -274,5 +290,8 @@ public class ConsultasFragment extends Fragment {
      */
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+    private boolean isTablet() {
+        return getResources().getBoolean(R.bool.tablet);
     }
 }
